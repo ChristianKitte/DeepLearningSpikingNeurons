@@ -7,6 +7,7 @@
 **Dozent: Prof. Dr. Felix Gers (Berliner Hochschule für Technik)**
 
 **Studiengang Medieninformatik Online MA, Sommersemester 2022**
+
 **University of Applied Sciences Emden/Leer, Faculty of Technology, Department of Electrical Engineering and Informatics**
 
 ---
