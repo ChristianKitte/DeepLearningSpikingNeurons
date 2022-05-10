@@ -1,0 +1,37 @@
+#lösung {
+    margin-top: 10px;
+    width: 90%;
+}
+
+#dokumentation {
+    margin-top: 25px;
+    width: 90%;
+}
+
+.dokutext {
+    margin-left: 10px;
+}
+
+.output-text {
+    margin-top: 1em;
+}
+
+
+#info-text{
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: khaki;
+}
+
+div.simulation-config {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+    background-color: khaki;
+
+}
+
+.range-value-string {
+    width: 100%;
+}
