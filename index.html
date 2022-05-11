@@ -23,6 +23,8 @@
 
     <!-- Include Scrips for the App. -->
     <script src="scripts/Utils.js"></script>
+    <script src="scripts/DynamicImpulseTrain.js"></script>
+    <script src="scripts/DynamicVoltageTrain.js"></script>
     <script src="scripts/LIFNeuron.js"></script>
     <script src="scripts/DrawGraph2.js"></script>
     <script src="scripts/Beep.js"></script>
@@ -51,7 +53,7 @@
     <ul class="nav nav-tabs nav-fill">
         <li class="nav-item active">
             <a class="nav-link" href="#lösung" data-bs-toggle="tab" aria-current="page">
-                <p class="h2">Lösung</p>
+                <p class="h2">Simulation zweier LIFs</p>
             </a>
         </li>
         <li class="nav-item">
@@ -63,78 +65,102 @@
 
     <!-- Content -->
     <div class="tab-content justify-content-center d-flex">
-        <!-- Lösung -->
+        <!-- Lösung1 -->
         <div class="tab-pane fade show active" id="lösung">
             <div class="row">
                 <div class="row" id="info-text">
-                    <p class="fs-5 output-text">Nachdem das Netz geladen worden ist, können Bilder per drag and drop auf
-                        die grüne Ablagefläche gezogen werden, um sie zu klassifizieren. Die acht Beispielbilder sind
-                        Beispiele für gute und weniger gute Klassifikationen.
+                    <p class="fs-5 output-text">Auf dieser Seite kann mit zwei Leaky Integrated and Fire (LIF) Neurons
+                        experimentiert werden, welche in Reihe geschaltet sind. Das erste Neuron erhält hierbei einen
+                        konfigurierbaren Eingangsstrom, welcher für die in das Neuron eintreffenden Ströme steht.
                     </p>
+                    <p class="fs-5 output-text">
+                        Grundsätzlich kann zwischen einer getakteten Stromquelle sowie einer zufälligen Stromkurve
+                        gewählt werden. Sie stellen das Äquivalent zu einem Spike Train dar. Auf der linken Seite sind
+                        alle Möglichkeiten für die Einstellung der Stromquelle zu sehen.
+                    </p>
+                    <p class="fs-5 output-text">
+                        Auf der rechten Seite werden im oberen Graph der Strom, der Spannungsverlauf sowie die Spikes
+                        des
+                        Neurons angezeigt. Die Dauer des Spikes richtet sich hierbei vereinfacht nach der Dauer der
+                        Ruhezeit.
+                    </p>
+                    <p class="fs-5 output-text">
+                        Am Ausgang des ersten Neurons befindet sich ein weiters Neuron in Reihe. An íhm liegt ein
+                        Strom an, der auf den Spikes des vorherigen Neurons und den Widerstand der Verbindung beruht.
+                        Eine gute Verbindung kann durch einen kleinen Widerstand ausgedrückt werden, eine schlechte
+                        entsprechend über einen hohen. Der Zustand wird in dem unteren Diagramm ausgedrückt.
+                    </p>
+
                 </div>
 
                 <div class="col">
                     <div>
                         <div class="simulation-config">
-                            <label class="form-label" for="range-tgesamt">Zeitdauer der Simulation (ms)</label>
-                            <input class="form-range" id="range-tgesamt" type="range" min="0" max="500" step="0.01"
-                                   value="1"
+                            <label class="form-label" for="range-tgesamt">Zeitdauer der Simulation (0 bis 500
+                                ms)</label>
+                            <input class="form-range" id="range-tgesamt" type="range" min="0" max="500" step="1"
+                                   value="200"
                                    onchange="dummy()">
                             <p id="range-tgesamt-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
                         <div class="simulation-config">
                             <label class="form-label" for="range-dt">Länge eines Zeitschrittes für die Berechnung
-                                (ms)</label>
+                                (1 bis 5 ms)</label>
                             <input class="form-range" id="range-dt" type="range" min="1" max="5" step="1"
                                    value="1"
-                                   onchange="dummy()">
+                                   onchange="runSimulation()">
                             <p id="range-dt-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
                         <div class="simulation-config">
-                            <label class="form-label" for="range-timpulse">Zeitdauer eines Impulses (ms)</label>
-                            <input class="form-range" id="range-timpulse" type="range" min="0" max="500" step="0.01"
-                                   value="1"
+                            <label class="form-label" for="range-timpulse">Zeitdauer eines Impulses (0 bis 500
+                                ms)</label>
+                            <input class="form-range" id="range-timpulse" type="range" min="0" max="500" step="1"
+                                   value="50"
                                    onchange="dummy()">
                             <p id="range-timpulse-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
                         <div class="simulation-config">
-                            <label class="form-label" for="range-imax">Höhe des Stroms (mA)</label>
+                            <label class="form-label" for="range-imax">Höhe des Stroms (0 bis 3 mA)</label>
                             <input class="form-range" id="range-imax" type="range" min="0" max="3" step="0.001"
                                    value="1"
-                                   onchange="dummy()">
+                                   onchange="runSimulation()">
                             <p id="range-imax-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
                         <div class="simulation-config">
                             <label class="form-label" for="current-type">Wählen sie die Stromart:</label>
                             <select class="form-select" id="current-type" aria-label="Default select example">
-                                <option selected value="1">Impuls</option>
+                                <option selected>Bitte wählen sie den Typ aus:</option>
+                                <option value="1">Impuls</option>
                                 <option value="2">Zufall</option>
                             </select>
                         </div>
 
                         <div id="simulation-button-bar" class="simulation-config">
-                            <button class="btn btn-outline-primary" onclick="setIntialValue()">pulseTest</button>
-                            <button class="btn btn-outline-primary" onclick="RandomTest()">RandomTest</button>
-                            <button class="btn btn-outline-primary" onclick="dynamicImpulse()">DynamicTest</button>
+                            <button class="btn btn-outline-primary" onclick="runSimulation()">Simulation manuelle
+                                anstoßen
+                            </button>
                         </div>
                     </div>
 
 
-                    <div id="Diagramm1"></div>
-
                 </div>
                 <div class="col">
-
-                    <p>Simulation mit einem Netzwerd</p>
-
+                    <div id="Diagramm1"></div>
+                    <div class="simulation-config">
+                        <label class="form-label" for="range-rmax">Widerstand zum nächsten Neuron (0 bis 2 Ohm)</label>
+                        <input class="form-range" id="range-rmax" type="range" min="0" max="3" step="0.001"
+                               value="1"
+                               onchange="runSimulation()">
+                        <p id="range-rmax-value" class="range-value-string">Aktueller Wert: </p>
+                    </div>
+                    <div id="Diagramm2"></div>
                 </div>
             </div>
         </div>
-
         <!-- Dokumentation -->
         <div class="tab-pane fade show" id="dokumentation">
             <h5>
@@ -143,11 +169,70 @@
                 </strong>
             </h5>
 
+            <ul>
+                <li>
+                    <h6>
+                        <a href="https://getbootstrap.com/" target="_blank">Bootstrap 5</a>
+                    </h6>
+                    <p class="fs-6">
+                        Bootstrap ist ein auf HTML und CSS basierendes Frontend CSS Framework für Webseiten. Dem
+                        entsprechend fokussiert es auf das Design und Layout einer Seite sowie ihrer
+                        Oberflächenelemente.
+                    </p>
+                </li>
+                <li>
+                    <h6>
+                        <a href="https://d3js.org/" target="_blank">D3 - Data Driven Documents</a>
+                    </h6>
+                    <p class="fs-6">
+                        Bei D3 handelt es sich um eine JavaScript Bibliothek, welche zur Manipulation von
+                        HTML Dokumenten verwendet werden kann. D3 fokussiert hierbei auf die datengetriebene
+                        Darstellung von Daten und deren (interaktiven) Visualisierung.
+
+                        Auch wenn D3 bereits etwas älter ist, so ist es nach wie vor weit verbreitte, was nicht
+                        zuletzt auch an dessen Umfangreichen Funktionalität liegt. Der Einsatz von D3 gestaltet sich
+                        in der Praxis recht einfach, jedoch ist die anfängliche Lernkurve eher als steil
+                        anzusehen.
+                    </p>
+                </li>
+                <li>
+                    <h6>
+                        <a href="https://plotly.com/javascript/" target="_blank">Plotly</a>
+                    </h6>
+                    <p class="fs-6">
+                        Plotly ist eine verbreitete Grafikbibliothek mit Schnittstellen zu verschiedenen Sprachen
+                        wie Python, R oder JavaScript. In dieser Lösung wird Plotly als leichtgewichtige Lösung zum
+                        Erstellen von Tortengrafiken verwendet.
+                    </p>
+                </li>
+            </ul>
+
             <h5>
                 <strong>
                     Umsetzung der Aufgabe
                 </strong>
             </h5>
+
+            <p class="fs-6">
+                Die hier vorgestellte Umsetzung der Aufgabenstellung teilt sich in zwei einzelnen Bereichen und
+                ist somit in Bezug zur Aufgabenstellung freier umgesetzt. Bei dem ersten Bereich handelt es
+                sich um eine konfigurierbare Simulation eines einzelnen LIF Neuron, beim zweiten um eine
+                Simulation dessen Verhaltens im Rahmen eines Netzwerkes.
+            </p>
+            <p class="fs-6">
+                Übersicht der zugörigen Dateien...
+            </p>
+            <p class="fs-6">
+                Beide Simulationen basieren auf das Modell eines Leaky and fire neuron (LIF Neuron). Hierunter
+                versteht man...
+            </p>
+            <p class="fs-6">
+                Zur ersten Simulation: ....
+            </p>
+            <p class="fs-6">
+                Zur zweiten Simulation: ....
+            </p>
+
         </div>
     </div>
 </div>

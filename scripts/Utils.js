@@ -12,3 +12,24 @@ function feedNeuron(neuron, current, dt) {
 
     return out;
 }
+
+function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function getCurrent(voltage, resistance) {
+    if (resistance === 0) {
+        // Begrenzung des Potentials für den Fall R = 0 Ohm
+        return voltage;
+    } else {
+        let tmp = voltage / resistance;
+
+        // Keine Division durch 0!
+        if (tmp != 0) {
+            return tmp;
+            //return Math.round((voltage / resistance) * 1000) / 1000;
+        } else {
+            return 0;
+        }
+    }
+}

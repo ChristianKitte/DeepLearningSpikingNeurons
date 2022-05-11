@@ -83,7 +83,7 @@ class LIFNeuron {
         // Die Refraktärzeit verringert sich um dt
         this.t_rest = this.t_rest - this.dt;
 
-        this.u_out = 0;
+        this.u_out = this.u_outValue;
         return [this.u, this.t_rest, this.u_out];
     }
 
