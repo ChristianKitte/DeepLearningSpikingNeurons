@@ -1,3 +1,12 @@
+/**
+ * Berechnet auf Basis des aktuellen Stroms und eines delta T den nächsten Wert des Neuron.
+ * @param neuron Das zu verwendende Neuronenmodell
+ * @param current Der in das Modell fließende Strom
+ * @param dt Delta T zwischen zwei Schritten
+ * @returns {{U_pulse: number, U: number, I: number}}
+ * Aktuelle Werte der inneren Spannung, des Stroms sowie des Spikepotentials
+ * @constructor
+ */
 function feedNeuron(neuron, current, dt) {
     let out = {I: 0, U: 0, U_pulse: 0};
 

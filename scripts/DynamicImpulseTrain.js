@@ -5,7 +5,6 @@ function dynamicImpulseTrain(
     inputCurrent = 1.2,
     inputType = 1) {
 
-
     let neuron = new LIFNeuron();
 
     let I = [];

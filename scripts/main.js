@@ -1,3 +1,6 @@
+let x=new SynapticLIFNeuron();
+let y = x.GetIncommingActiveConnection();
+
 function runSimulation() {
     // Audiocontext, need a manual interaction within the Browser
     myAudioContext = new AudioContext();
