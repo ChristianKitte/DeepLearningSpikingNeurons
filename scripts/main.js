@@ -1,5 +1,8 @@
-let x=new SynapticLIFNeuron();
-let y = x.GetIncommingActiveConnection();
+let x = new Network(8);
+console.log(x.toJSON());
+
+let y=new NetworkGraph(x);
+let v=0;
 
 function runSimulation() {
     // Audiocontext, need a manual interaction within the Browser

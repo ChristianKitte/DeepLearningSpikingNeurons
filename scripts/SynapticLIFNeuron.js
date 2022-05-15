@@ -12,6 +12,8 @@ class SynapticLIFNeuron extends LIFNeuron {
     constructor(props) {
         super(props);
 
+        this.id = 0;
+
         this.inputConnections = [];
         this.outputConnection = [];
 
@@ -23,6 +25,28 @@ class SynapticLIFNeuron extends LIFNeuron {
         this.incomingConnections = 0;
         this.incomingActiveConnections = 0
         this.outgoingConnection = 0;
+    }
+
+    /**
+     * Gibt den aktuellen Zustand und Conenctions als JSON aus
+     * @returns {{OutputConnections: number, IncommingCurrent: number, InputConnections: number, OutgoingConnections: number, Id: number, IncommingActiveConenctions: number, IncommingConnections: number, OutgoingVoltage: number, Spiking: boolean}}
+     */
+    toJSON() {
+        return {
+            Id: this.id,
+            InputConnections: this.inputConnections.map(n => {
+                n.toJSON();
+            }),
+            OutputConnections: this.outputConnection.map(n => {
+                n.toJSON();
+            }),
+            IncommingCurrent: this.incomingCurrent,
+            Spiking: this.spiking,
+            OutgoingVoltage: this.outgoingVoltag,
+            IncommingConnections: this.incomingConnections,
+            IncommingActiveConenctions: this.incomingActiveConnections,
+            OutgoingConnections: this.outgoingConnection
+        }
     }
 
     /**
@@ -113,7 +137,7 @@ class SynapticLIFNeuron extends LIFNeuron {
      * Gibt alle Wichtigen Infos zum Zustand des Objektes zurück
      * @constructor
      */
-    GetCurrentState(){
+    GetCurrentState() {
         return {
             IncomingCurrent: this.incomingCurrent,
             Spiking: this.spiking,

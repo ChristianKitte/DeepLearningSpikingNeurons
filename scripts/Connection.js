@@ -18,13 +18,29 @@ class Connection {
         this.to = to;
 
         this.resistentMin = resistentMin;
-        this.resistentMay = resistentMax;
+        this.resistentMax = resistentMax;
 
         this.inputCurrent = 0;
         this.isActive = false;
 
         // https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-        this._resistant = Math.random() * (resistentMax - resistentMin) + min
+        this._resistant = Math.random() * (resistentMax - resistentMin) + resistentMin
+    }
+
+    /**
+     * Gibt die aktuelle Connection als JSON aus
+     * @returns {{IsActive: boolean, ResistentMin, From, To, Resistant: *, ResistentMay, InputCurrent: number}}
+     */
+    toJSON() {
+        return {
+            From: this.from,
+            To: this.to,
+            ResistentMin: this.resistentMin,
+            ResistentMay: this.resistentMax,
+            InputCurrent: this.inputCurrent,
+            IsActive: this.isActive,
+            Resistant: this._resistant
+        }
     }
 
     /**
@@ -55,6 +71,4 @@ class Connection {
             this.inputCurrent = 0;
         }
     }
-
-
 }
