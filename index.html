@@ -56,8 +56,13 @@
     <!-- Bootsrap Nav -->
     <ul class="nav nav-tabs nav-fill">
         <li class="nav-item active">
-            <a class="nav-link" href="#lösung" data-bs-toggle="tab" aria-current="page">
+            <a class="nav-link" href="#lösung1" data-bs-toggle="tab" aria-current="page">
                 <p class="h2">Simulation zweier LIFs</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#lösung2" data-bs-toggle="tab">
+                <p class="h2">Simulation eines LIF Netzwerkes</p>
             </a>
         </li>
         <li class="nav-item">
@@ -70,9 +75,9 @@
     <!-- Content -->
     <div class="tab-content justify-content-center d-flex">
         <!-- Lösung1 -->
-        <div class="tab-pane fade show active" id="lösung">
+        <div class="tab-pane fade show active" id="lösung1">
             <div class="row">
-                <div class="row" id="info-text">
+                <div class="row" id="info-text1">
                     <p class="fs-5 output-text">Auf dieser Seite kann mit zwei Leaky Integrated and Fire (LIF) Neurons
                         experimentiert werden, welche in Reihe geschaltet sind. Das erste Neuron erhält hierbei einen
                         konfigurierbaren Eingangsstrom, welcher für die in das Neuron eintreffenden Ströme steht.
@@ -94,7 +99,6 @@
                         Eine gute Verbindung kann durch einen kleinen Widerstand ausgedrückt werden, eine schlechte
                         entsprechend über einen hohen. Der Zustand wird in dem unteren Diagramm ausgedrückt.
                     </p>
-
                 </div>
 
                 <div class="col">
@@ -103,8 +107,7 @@
                             <label class="form-label" for="range-tgesamt">Zeitdauer der Simulation (0 bis 500
                                 ms)</label>
                             <input class="form-range" id="range-tgesamt" type="range" min="0" max="500" step="1"
-                                   value="200"
-                                   onchange="">
+                                   value="200">
                             <p id="range-tgesamt-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
@@ -112,8 +115,7 @@
                             <label class="form-label" for="range-dt">Länge eines Zeitschrittes für die Berechnung
                                 (1 bis 5 ms)</label>
                             <input class="form-range" id="range-dt" type="range" min="1" max="5" step="1"
-                                   value="1"
-                                   onchange="">
+                                   value="1">
                             <p id="range-dt-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
@@ -121,16 +123,14 @@
                             <label class="form-label" for="range-timpulse">Zeitdauer eines Impulses (0 bis 500
                                 ms)</label>
                             <input class="form-range" id="range-timpulse" type="range" min="0" max="500" step="1"
-                                   value="50"
-                                   onchange="">
+                                   value="50">
                             <p id="range-timpulse-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
                         <div class="simulation-config">
                             <label class="form-label" for="range-imax">Höhe des Stroms (0 bis 3 mA)</label>
                             <input class="form-range" id="range-imax" type="range" min="0" max="3" step="0.001"
-                                   value="1"
-                                   onchange="">
+                                   value="1">
                             <p id="range-imax-value" class="range-value-string">Aktueller Wert: </p>
                         </div>
 
@@ -149,9 +149,8 @@
                             </button>
                         </div>
                     </div>
-
-
                 </div>
+
                 <div class="col">
                     <div id="Diagramm1"></div>
                     <div class="simulation-config">
@@ -162,12 +161,119 @@
                         <p id="range-rmax-value" class="range-value-string">Aktueller Wert: </p>
                     </div>
                     <div id="Diagramm2"></div>
-                    <div id="Diagramm3">
-                        <svg id="svg" style="background-color: antiquewhite;" width="100%" height="50%"></svg>
-                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Lösung2 -->
+        <div class="tab-pane fade show" id="lösung2">
+            <div class="row">
+                <div class="row" id="info-text2">
+                    <p class="fs-5 output-text">Auf dieser Seite wird ein Netzwerk aus Leaky Integrated and Fire (LIF)
+                        Neuronen graphisch dargestellt und anhand der eingestellten Parameter (links) ausgeführt. Der
+                        einzelne Berechnungsschritt der Simulation ist hierbei fest und beträgt eine Millisekunde.
+                    </p>
+                    <p class="fs-5 output-text">
+                        Grundsätzlich kann zwischen einer getakteten Stromquelle sowie einer zufälligen Stromkurve
+                        gewählt werden. Sie stellen das Äquivalent zu einem Spike Train dar. Auf der linken Seite sind
+                        alle Möglichkeiten für die Einstellung der Stromquelle zu sehen. Die obere Grenze stellt hierbei
+                        die Stromstärke des Stromimpulses dar, sofern dieser Typ gewählt wurde.
+                    </p>
+                    <p class="fs-5 output-text">
+                        Auf der rechten Seite wird der Graph selbst angezeigt. Rote Knoten und Verbindungen zeigen
+                        Aktivität an. Die Dauer der zugrunde gelegten Spikes richtet sich hierbei vereinfacht nach der
+                        Dauer der Ruhezeit und ist fest vorgegeben.
+                    </p>
+                    <p class="fs-5 output-text">
+                        Jede Verbindung zwischen zwei Neuronen verfügt über einen links in seinen Grenzen einstellbaren,
+                        zufällig gewählten Widerstand. Je besser eine Verbindung etabliert ist, umso kleiner ist dieser
+                        Widerstand. In anderen Modellen wird dies durch ein höheres Gewicht ausgedrückt.
+                    </p>
+                </div>
+
+                <div class="col">
+                    <div>
+                        <div class="simulation-config">
+                            <label class="form-label" for="range-countNeuronen">Anzahl der Neuronen (0 bis 30)</label>
+                            <input class="form-range" id="range-countNeuronen" type="range" min="0" max="30" step="1"
+                                   value="10"
+                                   onchange="">
+                            <p id="range-countNeuronen-value" class="range-value-string">Aktueller Wert: </p>
+                        </div>
+
+                        <div class="simulation-config">
+                            <label class="form-label" for="range-widerstandMin">Untere Begrenzung des Widerstandes
+                                (0.001 bis 3 Ohm)</label>
+                            <input class="form-range" id="range-widerstandMin" type="range" min="0.001" max="3"
+                                   step="0.001"
+                                   value="0.5"
+                                   onchange="">
+                            <p id="range-widerstandMin-value" class="range-value-string">Aktueller Wert: </p>
+                        </div>
+
+                        <div class="simulation-config">
+                            <label class="form-label" for="range-widerstandMax">Obere Begrenzung des Widerstandes
+                                (0.001 bis 3 Ohm)</label>
+                            <input class="form-range" id="range-widerstandMax" type="range" min="0.001" max="3"
+                                   step="0.001"
+                                   value="0.5"
+                                   onchange="">
+                            <p id="range-widerstandMax-value" class="range-value-string">Aktueller Wert: </p>
+                        </div>
+
+                        <div class="simulation-config">
+                            <label class="form-label" for="range-tNetzImpulse">Zeitdauer eines Impulses (0 bis 500
+                                ms)</label>
+                            <input class="form-range" id="range-tNetzImpulse" type="range" min="0" max="500" step="1"
+                                   value="50"
+                                   onchange="">
+                            <p id="range-tNetzImpulse-value" class="range-value-string">Aktueller Wert: </p>
+                        </div>
+
+                        <div class="simulation-config">
+                            <label class="form-label" for="range-iNetzMax">Maximale Höhe des Stroms (0 bis 3 mA)</label>
+                            <input class="form-range" id="range-iNetzMax" type="range" min="0" max="3" step="0.001"
+                                   value="1"
+                                   onchange="">
+                            <p id="range-iNetzMax-value" class="range-value-string">Aktueller Wert: </p>
+                        </div>
+
+                        <div class="simulation-config">
+                            <label class="form-label" for="range-iNetzMin">Minimale Höhe des Stroms (0 bis 3 mA)</label>
+                            <input class="form-range" id="range-iNetzMin" type="range" min="0" max="3" step="0.001"
+                                   value="1"
+                                   onchange="">
+                            <p id="range-iNetzMin-value" class="range-value-string">Aktueller Wert: </p>
+                        </div>
+
+                        <div class="simulation-config">
+                            <label class="form-label" for="netzCurrent-type">Wählen sie die Stromart:</label>
+                            <select class="form-select" id="netzCurrent-type" aria-label="Default select example">
+                                <option selected>Bitte wählen sie den Typ aus:</option>
+                                <option value="1">Impuls</option>
+                                <option value="2">Zufall</option>
+                            </select>
+                        </div>
+
+                        <div id="simulation-netzButton-bar" class="simulation-config">
+                            <button class="btn btn-outline-primary" onclick="createNetworkGraph()">Netzwerk erzeugen
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="startNetSimulation()">Netzwerk starten
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="stopNetSimulation()">Netzwerk stoppen
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col">
+
+                    <svg id="svg"></svg>
+
+                </div>
+            </div>
+        </div>
+
         <!-- Dokumentation -->
         <div class="tab-pane fade show" id="dokumentation">
             <h5>
@@ -241,6 +347,7 @@
             </p>
 
         </div>
+
     </div>
 </div>
 
@@ -254,9 +361,8 @@
 
 <!-- Eigene JavaScripte -->
 <script src="scripts/NetworkGraph.js"></script>
-<script src="scripts/main.js"></script>
 <script src="scripts/RangeValues.js"></script>
-
+<script src="scripts/main.js"></script>
 
 </body>
 

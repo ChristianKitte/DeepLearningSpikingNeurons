@@ -1,3 +1,7 @@
+/////////////////
+// Werte Lösung 1
+/////////////////
+
 /**
  * Die gesammte Zeitdauer der Ausgabe in ms
  * @type {number}
@@ -29,10 +33,60 @@ let rangeRmaxValue = 0;
  */
 let currentTypeValue = 1;
 
+/////////////////
+// Werte Lösung 2
+/////////////////
+
+/**
+ * Die Anzahl der Neuronen im Netz
+ * @type {number}
+ */
+let rangeCountNeuronenValue = 0;
+
+/**
+ * Die untere Schranke des Zufallswertes für den Widerstand in Ohm
+ * @type {number}
+ */
+let rangeWiderstandMinValue = 0;
+
+/**
+ * Die Zeit eines Impulses in ms
+ * @type {number}
+ */
+let rangeTNetzImpulseValue = 0;
+
+/**
+ * Die ober Schranke des Zufallswertes für den Widerstand in Ohm
+ * @type {number}
+ */
+let rangeWiderstandMaxValue = 0;
+
+/**
+ * Die minimale Höhe des Stromes in mA (entspricht der unteren Grenze (Typ: Zufällig))
+ * @type {number}
+ */
+let rangeINetzMinValue = 0;
+
+/**
+ * Die maximale Höhe des Stromes in mA (entspricht der Impulsstärke (Typ: Puls) oder oberen Grenze (Typ: Zufällig))
+ * @type {number}
+ */
+let rangeINetzMaxValue = 0;
+
+/**
+ * Die Art des Stromverlaufs 1=gleichförmiger Impuls, 2=zufällige Kurve
+ * @type {number}
+ */
+let NetCurrentTypeValue = 1;
+
 setIntialValue();
 
 // d=>{} funktioniert nicht, functio(){} ja!
 // Dies Script muss am Ende des HTML geladen werden, da sonst der Slider nciht gefunden wird...
+
+/////////////////
+// Werte Lösung 1
+/////////////////
 d3.select('#range-tgesamt')
     .on("input", function () {
         rangeTgesamtValue = +this.value;
@@ -73,16 +127,87 @@ d3.select('#range-rmax')
         runSimulation();
     });
 
-// Bei Option und einer Zahl als Value kommt es regelmäßig zu NaN. Value bei select im Script und Html muss
-// also eine Zahl sein
+/**
+ * Bei Option und einer Zahl als Value kommt es regelmäßig zu NaN. Value bei select im Script und Html muss
+ * also eine Zahl sein
+ */
 d3.select('#current-type')
     .on("change", function () {
         currentTypeValue = +this.value;
         runSimulation();
+    })
+    .property('value', currentTypeValue);
+
+/////////////////
+// Werte Lösung 2
+/////////////////
+
+d3.select('#range-countNeuronen')
+    .on("input", function () {
+        rangeCountNeuronenValue = +this.value;
+        let txt = "Aktueller Wert: " + rangeCountNeuronenValue.toString() + " LIF Neuronen";
+        d3.select('#range-countNeuronen-value').text(txt);
+        runNetSimulation();
     });
 
-// Liest die aktuell im Html gesetzten Werte aus, belegt die Variablen und setzt den initialen Texte
+d3.select('#range-widerstandMin')
+    .on("input", function () {
+        rangeWiderstandMinValue = +this.value;
+        let txt = "Aktueller Wert: " + rangeWiderstandMinValue.toString() + " Ohm";
+        d3.select('#range-widerstandMin-value').text(txt);
+        runNetSimulation();
+    });
+
+d3.select('#range-widerstandMax')
+    .on("input", function () {
+        rangeWiderstandMaxValue = +this.value;
+        let txt = "Aktueller Wert: " + rangeWiderstandMaxValue.toString() + " Ohm";
+        d3.select('#range-widerstandMax-value').text(txt);
+        runNetSimulation();
+    });
+
+d3.select('#range-tNetzImpulse')
+    .on("input", function () {
+        rangeTNetzImpulseValue = +this.value;
+        let txt = "Aktueller Wert: " + rangeTNetzImpulseValue.toString() + " ms";
+        d3.select('#range-tNetzImpulse-value').text(txt);
+        runSimulation();
+    });
+
+d3.select('#range-iNetzMin')
+    .on("input", function () {
+        rangeINetzMinValue = +this.value;
+        let txt = "Aktueller Wert: " + rangeINetzMinValue.toString() + " mA";
+        d3.select('#range-iNetzMin-value').text(txt);
+        runNetSimulation();
+    });
+
+d3.select('#range-iNetzMax')
+    .on("input", function () {
+        rangeINetzMaxValue = +this.value;
+        let txt = "Aktueller Wert: " + rangeINetzMaxValue.toString() + " mA";
+        d3.select('#range-iNetzMax-value').text(txt);
+        runNetSimulation();
+    });
+
+/**
+ * Bei Option und einer Zahl als Value kommt es regelmäßig zu NaN. Value bei select im Script und Html muss
+ * also eine Zahl sein
+ */
+d3.select('#netzCurrent-type')
+    .on("change", function () {
+        NetCurrentTypeValue = +this.value;
+        runNetSimulation();
+    })
+    .property('value', currentTypeValue);
+
+/**
+ * Liest die aktuell im Html für Lösung 1 und 2 gesetzten Werte aus, belegt die Variablen und setzt den initialen Texte
+ */
 function setIntialValue() {
+    /////////////////
+    // Werte Lösung 1
+    /////////////////
     rangeTgesamtValue = document.getElementById('range-tgesamt').getAttribute('value');
     let txt1 = "Aktueller Wert: " + rangeTgesamtValue.toString() + " ms";
     d3.select('#range-tgesamt-value').text(txt1);
@@ -103,6 +228,34 @@ function setIntialValue() {
     let txt5 = "Aktueller Wert: " + rangeRmaxValue.toString() + " Ohm";
     d3.select('#range-rmax-value').text(txt5);
 
-    currentTypeValue = document.getElementById('current-type').value;
-    runSimulation();
+    CurrentTypeValue = document.getElementById('current-type').value;
+
+    /////////////////
+    // Werte Lösung 2
+    /////////////////
+    rangeCountNeuronenValue = document.getElementById('range-countNeuronen').getAttribute('value');
+    let txt6 = "Aktueller Wert: " + rangeCountNeuronenValue.toString() + " LIF Neuronen";
+    d3.select('#range-countNeuronen-value').text(txt6);
+
+    rangeWiderstandUntenValue = document.getElementById('range-widerstandMin').getAttribute('value');
+    let txt7 = "Aktueller Wert: " + rangeWiderstandUntenValue.toString() + " Ohm";
+    d3.select('#range-widerstandMin-value').text(txt7);
+
+    rangeWiderstandObenValue = document.getElementById('range-widerstandMax').getAttribute('value');
+    let txt8 = "Aktueller Wert: " + rangeWiderstandObenValue.toString() + " Ohm";
+    d3.select('#range-widerstandMax-value').text(txt8);
+
+    rangeTNetzImpulseValue = document.getElementById('range-tNetzImpulse').getAttribute('value');
+    let txt9 = "Aktueller Wert: " + rangeTNetzImpulseValue.toString() + " ms";
+    d3.select('#range-tNetzImpulse-value').text(txt9);
+
+    rangeINetzMinValue = document.getElementById('range-iNetzMin').getAttribute('value');
+    let txt10 = "Aktueller Wert: " + rangeINetzMinValue.toString() + " mA";
+    d3.select('#range-iNetzMin-value').text(txt10);
+
+    rangeINetzMaxValue = document.getElementById('range-iNetzMax').getAttribute('value');
+    let txt11 = "Aktueller Wert: " + rangeINetzMaxValue.toString() + " mA";
+    d3.select('#range-iNetzMax-value').text(txt11);
+
+    rangeINetzMaxValue = document.getElementById('netzCurrent-type').value;
 }

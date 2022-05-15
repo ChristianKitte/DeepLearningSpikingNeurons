@@ -16,8 +16,7 @@
     margin-top: 1em;
 }
 
-
-#info-text {
+#info-text1, #info-text2 {
     padding: 10px;
     margin: 5px;
     border-radius: 10px;
@@ -36,7 +35,6 @@ div.simulation-config {
     width: 100%;
 }
 
-
 .links line {
     stroke: #999;
     stroke-opacity: 0.6;
@@ -45,4 +43,14 @@ div.simulation-config {
 .nodes circle {
     stroke: #fff;
     stroke-width: 1.5px;
+}
+
+#svg {
+    background-color: ivory;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 30px;
+    border-color: lightgray;
+    height: 50%;
+    width: 100%;
 }

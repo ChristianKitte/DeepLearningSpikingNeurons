@@ -14,17 +14,19 @@ class NetworkGraph {
 
         //initilize svg or grab svg
         const svg = d3.select("#svg");
-        this.width = svg.attr("width");
-        this.height = svg.attr("height");
+        //this.width = svg.attr("width");
+        //this.height = svg.attr("height");
 
-        //const svg = d3.create("svg").attr("viewBox", [0, 0
-        //, 600, 600]);
+        //let x = document.getElementById('svg').getB.style.width;
+        //let y = document.getElementById('svg').style.height;
+
+        //const svg = d3.create("svg").attr("viewBox", [0, 0, 600, 600]);
 
         const simulation = d3.forceSimulation(this.graph.nodes)
-            .force('charge', d3.forceManyBody().strength(-100))
-            .force('link', d3.forceLink(this.graph.links).id(d => d.name)
+            .force('charge', d3.forceManyBody().strength(-500))
+            .force('link', d3.forceLink(this.graph.links).id(d => d.nameTest)
                 .distance(50))
-            .force('center', d3.forceCenter(100, 100))
+            .force('center', d3.forceCenter(300, 150))
 
         const node = svg.selectAll('circle')
             .data(this.graph.nodes)
@@ -51,21 +53,18 @@ class NetworkGraph {
                 [d.target.x, d.target.y]])
             )
         });
+
         return svg.node();
     }
 
     GetGraphData(neurons = [], connections = []) {
-        /*return {
-            nodes: this.neurons,
-            links: this.connections
-        }*/
-
         let nodes = [];
         let links = [];
 
         this.neurons.forEach(
             (neuron) => {
-                nodes.push({name: neuron.id});
+                //nodes.push({name: neuron.id});
+                nodes.push({nameTest: neuron.id, namex: neuron.Spiking});
             }
         );
 
