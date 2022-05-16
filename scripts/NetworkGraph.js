@@ -42,9 +42,7 @@ class NetworkGraph {
             .enter()
             .append('path')
             .attr('stroke', 'black')
-            .attr('fill', 'none')
-            .on("mouseover", mouseover)
-            .on("mouseout", mouseout);
+            .attr('fill', 'none');
 
         const lineGenerator = d3.line();
 
@@ -58,17 +56,6 @@ class NetworkGraph {
         });
 
         // http://bl.ocks.org/mbostock/2706022
-        function mouseover() {
-            d3.select(this).select("circle").transition()
-                .duration(750)
-                .attr("r", 16);
-        }
-
-        function mouseout() {
-            d3.select(this).select("circle").transition()
-                .duration(750)
-                .attr("r", 8);
-        }
 
         return svg.node();
     }
@@ -97,6 +84,4 @@ class NetworkGraph {
             links: links
         };
     }
-
-
 }

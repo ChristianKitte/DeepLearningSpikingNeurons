@@ -13,6 +13,10 @@ class Network {
         this.neurons = [];
         this.connections = [];
 
+        this.simulationTime = 0;
+        this.pulse = true;
+        this.actCurrent = 0;
+
         // Erzeugen der Neuronen
         for (let x = 0; x < numberOfNeurons; x++) {
             let newNeuron = new SynapticLIFNeuron();
@@ -28,7 +32,7 @@ class Network {
                     let newConnection = new Connection(this.neurons[from], this.neurons[to], minResistance, maxResistance);
 
                     if (minResistance === maxResistance) {
-                        newConnection.resistant = minResistance;
+                        newConnection = minResistance;
                     }
 
                     this.connections.push(newConnection);
@@ -44,8 +48,37 @@ class Network {
      * Neuronen des Arrays in aufsteigender Reihenfolge durchiteriert werden.
      * @param dt Die bei der BErechnung zu berücksichtigende Zeitspanne in ms
      */
-    computeNexStep(dt) {
+    computeNexStep(dt, currentType, currentMin, currentMax, pulseLength) {
+        this.simulationTime++;
 
+        if (currentType === 1) {
+            // Pulse
+            let triggerCurrent = 0;
+
+            if (this.simulationTime % pulseLength === 0) {
+                this.pulse = !this.pulse;
+
+                if (this.pulse) {
+                    triggerCurrent = currentMax;
+                } else {
+                    triggerCurrent = currentMin;
+                }
+            }
+
+            this.neurons[0].CalculateTimeStep(triggerCurrent);
+
+            for (let x = 0; x < this.neurons.length; x++) {
+                this.neurons[x].CalculateTimeStep(0);
+            }
+        } else if (currentType === 2) {
+            // Random
+            let triggerCurrent = getRndInteger(currentMin * 1000, currentMax * 1000) / 1000;
+            this.neurons[0].CalculateTimeStep(triggerCurrent);
+
+            for (let x = 0; x < this.neurons.length; x++) {
+                this.neurons[x].CalculateTimeStep(0);
+            }
+        }
     }
 
     /**

@@ -52,21 +52,26 @@ class SynapticLIFNeuron extends LIFNeuron {
     /**
      * Verarbeitet alle aktuellen Verbindungen und berechnet die Antwort des LIF Neurons. Als Ergebnis werden Daten
      * zum aktuellen Zustand zurück gegeben.
+     * @param triggerCurrrent Der in das Modell fließende initiale Strom
      * @returns {{OutgoingConnections: number, IncomingCurrent: number, IncomingActiveConnections: number, IncomingConnections: number, Spiking: boolean}}
      * Gibt alle Wichtigen Infos zum Zustand des Objektes zurück
      * @constructor
      */
-    CalculateTimeStep() {
-        this.incomingCurrent = this.GetIncomingCurrent();
+    CalculateTimeStep(triggerCurrrent) {
+        this.incomingCurrent = this.GetIncomingCurrent(triggerCurrrent);
 
-        this.ExecuteStep(this.incomingCurrent);
+        this.ExecuteStep(this.incomingCurrent, 1);
 
         this.spiking = this.u_out > 0;
         this.outgoingVoltag = this.u_out;
 
         this.incomingConnections = this.inputConnections.length;
-        this.incomingActiveConnections = this.GetIncommingActiveConnection();
+        this.incomingActiveConnections = this.GetIncomingActiveConnection();
         this.outgoingConnection = this.outputConnection.length;
+
+        if (this.spiking) {
+            console.log("Pulse von " + +this.id);
+        }
 
         return {
             IncomingCurrent: this.incomingCurrent,
@@ -93,15 +98,19 @@ class SynapticLIFNeuron extends LIFNeuron {
 
     /**
      * Gibt die Summe aller eingehenden Ströme zurück. Diese ergeben sich durch das Aufsummieren aller Einzelströme.
-     * @returns {number} Die Summe aller eingehenden Ströme
-     * @constructor
+     * @param triggerCurrrent Ein extern anstoßender Strom, der zu den eingehenden Strömen des Netzes aufaddiert wird.
+     * @returns {*} {number} Die Summe aller eingehenden Ströme
      */
-    GetIncomingCurrent() {
-        let sumCurrent = 0;
+    GetIncomingCurrent(triggerCurrrent) {
+        let sumCurrent = triggerCurrrent;
 
-        sumCurrent = this.inputConnections.reduce(
-            (prevValue, curValue) => prevValue + curValue, 0
-        );
+        if (isNaN(triggerCurrrent)) {
+            sumCurrent = 0;
+        }
+
+        for (let x = 0; x < this.inputConnections.length; x++) {
+            sumCurrent = sumCurrent + this.inputConnections[x].RefreshCurrent();
+        }
 
         return sumCurrent;
     }
@@ -112,7 +121,7 @@ class SynapticLIFNeuron extends LIFNeuron {
      * @returns {number} Die Anzahl der Verbindungen
      * @constructor
      */
-    GetIncommingActiveConnection() {
+    GetIncomingActiveConnection() {
         let sumCountIncome = 0;
 
         let countIncome = this.inputConnections.map(

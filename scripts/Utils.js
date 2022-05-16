@@ -26,6 +26,12 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/**
+ * Liefert auf Basis eines Stroms und eines Widerstandswertes die Stromstärke zurück
+ * @param voltage Die Spannung in mV
+ * @param resistance Der Widerstand in Ohm
+ * @returns {number|*} Die Stromhöhe in mA
+ */
 function getCurrent(voltage, resistance) {
     if (resistance === 0) {
         // Begrenzung des Potentials für den Fall R = 0 Ohm
@@ -41,10 +47,4 @@ function getCurrent(voltage, resistance) {
             return 0;
         }
     }
-}
-
-function getPixel(id) {
-    var percents = parseInt(document.getElementById(id).style.width);
-    var parentWidth = parseInt(document.getElementById("div-1").style.width);
-    var pixels = parentWidth * (percents / 100);
 }

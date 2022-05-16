@@ -199,7 +199,7 @@ d3.select('#netzCurrent-type')
         NetCurrentTypeValue = +this.value;
         runNetSimulation();
     })
-    .property('value', currentTypeValue);
+    .property('value', NetCurrentTypeValue);
 
 /**
  * Liest die aktuell im Html für Lösung 1 und 2 gesetzten Werte aus, belegt die Variablen und setzt den initialen Texte
@@ -257,5 +257,5 @@ function setIntialValue() {
     let txt11 = "Aktueller Wert: " + rangeINetzMaxValue.toString() + " mA";
     d3.select('#range-iNetzMax-value').text(txt11);
 
-    rangeINetzMaxValue = document.getElementById('netzCurrent-type').value;
+    NetCurrentTypeValue = document.getElementById('netzCurrent-type').value;
 }

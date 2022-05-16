@@ -51,7 +51,7 @@ let counter = 0;
  * ihn zur Anzeige
  */
 function createNetworkGraph() {
-    network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMinValue);
+    network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
     console.log(network.toJSON());
 
     let newGraph = new NetworkGraph(network);
@@ -72,7 +72,7 @@ function runNetSimulation() {
  * selbst wieder auf
  */
 function nextNetSimulationStep() {
-    network.computeNexStep(1);
+    network.computeNexStep(1, NetCurrentTypeValue, rangeINetzMinValue, rangeINetzMaxValue, rangeTNetzImpulseValue);
 
     if (runNetworkSimulation) {
         setTimeout(nextNetSimulationStep, 1);

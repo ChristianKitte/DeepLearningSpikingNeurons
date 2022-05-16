@@ -25,7 +25,8 @@ function dynamicImpulseTrain(
         timePulse = timePulse + durationStep;
 
         // Steuerung der Pulsmodulation.
-        if (inputType === 1 && timePulse >= durationPulse) {
+        //if (inputType === 1 && timePulse >= durationPulse) {
+        if (inputType === 1 && timeOverAll % durationPulse === 0) {
             // Puls modulieren
             pulseState = !pulseState;
             timePulse = 0;
