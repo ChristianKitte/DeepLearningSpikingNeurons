@@ -24,7 +24,7 @@ class Connection {
         this.isActive = false;
 
         // https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-        this._resistant = Math.random() * (resistentMax - resistentMin) + resistentMin
+        this.resistant = Math.random() * (resistentMax - resistentMin) + resistentMin
     }
 
     /**
@@ -43,21 +43,6 @@ class Connection {
         }
     }
 
-    /**
-     * Gibt den Wert des Widerstands der Verbundung zurück
-     * @returns {number} Der Widerstand in Ohm
-     */
-    get resistant() {
-        return this._resistant;
-    }
-
-    /**
-     * Setzt den Wert des Widerstands der Verbindung
-     * @param value Der Widerstand in Ohm
-     */
-    set resistant(value) {
-        this._resistant = value;
-    }
 
     /**
      * Gibt den durch die Verbindung fließenden Strom an. Dieser hängt von dem Potential des Quellneurons

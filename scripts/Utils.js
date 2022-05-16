@@ -42,3 +42,9 @@ function getCurrent(voltage, resistance) {
         }
     }
 }
+
+function getPixel(id) {
+    var percents = parseInt(document.getElementById(id).style.width);
+    var parentWidth = parseInt(document.getElementById("div-1").style.width);
+    var pixels = parentWidth * (percents / 100);
+}

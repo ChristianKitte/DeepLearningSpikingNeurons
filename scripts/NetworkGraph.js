@@ -5,6 +5,8 @@
 // https://observablehq.com/@chinwobble/force-layout
 // https://www.pluralsight.com/guides/creating-force-layout-graphs-in-d3
 
+// https://chartio.com/resources/tutorials/how-to-resize-an-svg-when-the-window-is-resized-in-d3-js/
+// https://observablehq.com/@xianwu/force-directed-graph-network-graph-with-arrowheads-and-lab
 class NetworkGraph {
     constructor(network) {
         this.neurons = network.neurons;
@@ -12,21 +14,20 @@ class NetworkGraph {
 
         this.graph = this.GetGraphData(this.neurons, this.connections);
 
-        //initilize svg or grab svg
-        const svg = d3.select("#svg");
-        //this.width = svg.attr("width");
-        //this.height = svg.attr("height");
+        d3.select("#test").remove();
 
-        //let x = document.getElementById('svg').getB.style.width;
-        //let y = document.getElementById('svg').style.height;
-
-        //const svg = d3.create("svg").attr("viewBox", [0, 0, 600, 600]);
+        const svg = d3.select("div#container")
+            .append("svg")
+            .attr("id", "test")
+            .attr("preserveAspectRatio", "xMinYMin meet")
+            .attr("viewBox", "0 0 400 400")
+            .classed("svg-content", true);
 
         const simulation = d3.forceSimulation(this.graph.nodes)
             .force('charge', d3.forceManyBody().strength(-500))
             .force('link', d3.forceLink(this.graph.links).id(d => d.nameTest)
                 .distance(50))
-            .force('center', d3.forceCenter(300, 150))
+            .force('center', d3.forceCenter(200, 200))
 
         const node = svg.selectAll('circle')
             .data(this.graph.nodes)
@@ -41,7 +42,9 @@ class NetworkGraph {
             .enter()
             .append('path')
             .attr('stroke', 'black')
-            .attr('fill', 'none');
+            .attr('fill', 'none')
+            .on("mouseover", mouseover)
+            .on("mouseout", mouseout);
 
         const lineGenerator = d3.line();
 
@@ -53,6 +56,19 @@ class NetworkGraph {
                 [d.target.x, d.target.y]])
             )
         });
+
+        // http://bl.ocks.org/mbostock/2706022
+        function mouseover() {
+            d3.select(this).select("circle").transition()
+                .duration(750)
+                .attr("r", 16);
+        }
+
+        function mouseout() {
+            d3.select(this).select("circle").transition()
+                .duration(750)
+                .attr("r", 8);
+        }
 
         return svg.node();
     }
@@ -81,5 +97,6 @@ class NetworkGraph {
             links: links
         };
     }
+
 
 }

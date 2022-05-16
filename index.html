@@ -45,7 +45,8 @@
                 Online Medieninformatik Master - Modul Deep Learning - SS 2022 - HS Emden-Leer</span>
         </div>
         <div class="container-fluid">
-            <p class="fs-5">Einsendeaufgabe EA2 : Interaktive Simulation spikender Neuronen<br>
+            <p class="fs-5">Einsendeaufgabe EA2 : Erstellen einer interaktiven Simulation eines Netzwerkes spikender
+                Neuronen auf Basis eines Leaky Integrate and Fire (LIF) Neuron.<br>
                 <a href="https://github.com/ChristianKitte/DeepLearningSpikingNeurons" target="_blank">
                     <em>Der Sourcecode ist bei GitHub einsehbar</em>
                 </a>
@@ -78,7 +79,7 @@
         <div class="tab-pane fade show active" id="lösung1">
             <div class="row">
                 <div class="row" id="info-text1">
-                    <p class="fs-5 output-text">Auf dieser Seite kann mit zwei Leaky Integrated and Fire (LIF) Neurons
+                    <p class="fs-5 output-text">Auf dieser Seite kann mit zwei Leaky Integrate and Fire (LIF) Neurons
                         experimentiert werden, welche in Reihe geschaltet sind. Das erste Neuron erhält hierbei einen
                         konfigurierbaren Eingangsstrom, welcher für die in das Neuron eintreffenden Ströme steht.
                     </p>
@@ -169,7 +170,7 @@
         <div class="tab-pane fade show" id="lösung2">
             <div class="row">
                 <div class="row" id="info-text2">
-                    <p class="fs-5 output-text">Auf dieser Seite wird ein Netzwerk aus Leaky Integrated and Fire (LIF)
+                    <p class="fs-5 output-text">Auf dieser Seite wird ein Netzwerk aus Leaky Integrate and Fire (LIF)
                         Neuronen graphisch dargestellt und anhand der eingestellten Parameter (links) ausgeführt. Der
                         einzelne Berechnungsschritt der Simulation ist hierbei fest und beträgt eine Millisekunde.
                     </p>
@@ -266,10 +267,7 @@
                     </div>
 
                 </div>
-                <div class="col">
-
-                    <svg id="svg"></svg>
-
+                <div id="container" class="col svg-container">
                 </div>
             </div>
         </div>

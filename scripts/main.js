@@ -30,10 +30,16 @@ function runSimulation() {
 }
 
 /**
+ * Das aktuelle Netzwerk zur Simulation
+ */
+let network;
+
+/**
  * True, wenn die Simulation in der AUsführung ist, ansonsten False
  * @type {boolean}
  */
 let runNetworkSimulation = false;
+
 /**
  * Für Debugzwecke
  * @type {number}
@@ -45,10 +51,10 @@ let counter = 0;
  * ihn zur Anzeige
  */
 function createNetworkGraph() {
-    let newNet = new Network(15);
-    console.log(newNet.toJSON());
+    network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMinValue);
+    console.log(network.toJSON());
 
-    let newGraph = new NetworkGraph(newNet);
+    let newGraph = new NetworkGraph(network);
 }
 
 /**
@@ -66,13 +72,9 @@ function runNetSimulation() {
  * selbst wieder auf
  */
 function nextNetSimulationStep() {
-    counter++;
-    if (counter % 999 === 0) {
-        alert('immer noch am Rechnen...');
-    }
+    network.computeNexStep(1);
 
     if (runNetworkSimulation) {
-        //alert('setze nächsten Aufruf...');
         setTimeout(nextNetSimulationStep, 1);
     } else {
         alert('beende Simulation...');
