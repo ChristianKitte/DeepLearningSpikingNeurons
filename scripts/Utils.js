@@ -40,9 +40,8 @@ function getCurrent(voltage, resistance) {
         let tmp = voltage / resistance;
 
         // Keine Division durch 0!
-        if (tmp != 0) {
+        if (tmp != 0 && !isNaN(tmp)) {
             return tmp;
-            //return Math.round((voltage / resistance) * 1000) / 1000;
         } else {
             return 0;
         }

@@ -44,6 +44,10 @@ div.simulation-config {
     fill: lightslategray;
 }
 
+.networkNodeActive {
+    fill: lightslategray;
+}
+
 #svg {
     background-color: ivory;
     border-style: solid;

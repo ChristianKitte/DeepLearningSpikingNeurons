@@ -1,6 +1,15 @@
-// Startwerte der Seite initialisieren und für die Lösung 1 (Am Anfang zu aktives Tab) die Simulation ausführen
+/**
+ * Initialisieren des anfänglichen Status für Lösung 1 und 2
+ */
 setIntialValue();
+/**
+ * Starte die Simulation für Lösung 1 (2 zu starten ist nicht sinnvoll)
+ */
 runSimulation();
+
+/////////////////////////////////////////////////////////////////////////////////////
+//// Lösung 1 (beim start aktuelles Tab)
+/////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Durchläuft die Simulation für die Lösung 1 komplett und zeigt den Verlauf über die Zeit an
@@ -29,46 +38,56 @@ function runSimulation() {
     DrawGraph2("Diagramm2", secundärTrain.U, secundärTrain.U_out, secundärTrain.I, secundärTrain.T);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
+//// Lösung 2
+/////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Das aktuelle Netzwerk zur Simulation
  */
 let network;
 
 /**
- * True, wenn die Simulation in der AUsführung ist, ansonsten False
+ * Die aktuelle D3 Session
+ */
+let newSession;
+
+/**
+ * True, wenn die Simulation in der Ausführung ist, ansonsten False
  * @type {boolean}
  */
 let runNetworkSimulation = false;
 
 /**
- * Für Debugzwecke
+ * Hilfsvariable, um die Zeitspanne der Impulse zu bestimmen
  * @type {number}
  */
-let counter = 0;
-let newGraph;
-let newSession;
+let pulseTimer = 0;
+
+/**
+ * True, wenn ein Pulse vorhanden ist, ansonsten False
+ * @type {boolean}
+ */
+let pulse = true;
+
+
 
 /**
  * Erzeugt einen Netzwergraphen auf Basis der Einstellungen zur Lösung 2 und bringt
- * ihn zur Anzeige
  */
 function createNetworkGraph() {
     network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
-    console.log(network.toJSON());
-
-    newGraph = new NetworkGraph(network);
-    newSession = newGraph.createGraph();
+    newSession = createGraph(network);
 }
 
-let pulseTimer = 0;
-let pulse = true;
+createNetworkGraph();
 
 /**
  * Startet die Simulation
  */
 function runNetSimulation() {
     if (runNetworkSimulation) {
-        pulseTimer = rangeTNetzImpulseValue // Pulszeit in ms
+        pulseTimer = rangeTNetzImpulseValue
 
         alert('starte Simulation...');
         nextNetSimulationStep();
@@ -76,12 +95,10 @@ function runNetSimulation() {
 }
 
 /**
- * Führt denn nächsten Simulationsschritt aus und ruft sich am Ende mit einer Verzögerung von 1 ms
- * selbst wieder auf
+ * Führt denn nächsten Simulationsschritt aus und ruft sich am Ende mit einer Verzögerung von 1 ms wieder auf
  */
 function nextNetSimulationStep() {
     network.computeNexStep(1, NetCurrentTypeValue, rangeINetzMinValue, rangeINetzMaxValue, pulse);
-    newGraph.updateGraph(network.neurons, network.connections, newSession);
 
     pulseTimer--;
     if (pulseTimer <= 0) {
@@ -109,6 +126,7 @@ function startNetSimulation() {
  */
 function stopNetSimulation() {
     runNetworkSimulation = false;
+    newSession.stop();
 }
 
 

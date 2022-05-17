@@ -12,9 +12,7 @@ class Network {
     constructor(numberOfNeurons, minResistance, maxResistance) {
         this.neurons = [];
         this.connections = [];
-
         this.simulationTime = 0;
-        //this.pulse = true;
 
         // Erzeugen der Neuronen
         for (let x = 0; x < numberOfNeurons; x++) {
@@ -46,6 +44,10 @@ class Network {
      * Berechnet für alle Neuronen den nächsten Zustand. Hierbei findet eine Vereinfachung statt, in dem seriell alle
      * Neuronen des Arrays in aufsteigender Reihenfolge durchiteriert werden.
      * @param dt Die bei der BErechnung zu berücksichtigende Zeitspanne in ms
+     * @param currentType Die Art des Stromes (Pulse oder Random)
+     * @param currentMin Die minimale Stromhöhe
+     * @param currentMax Die maximale Stromhöhe
+     * @param pulse Die Pulsdauer in ms
      */
     computeNexStep(dt, currentType, currentMin, currentMax, pulse) {
         this.simulationTime++;

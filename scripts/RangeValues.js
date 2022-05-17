@@ -42,37 +42,31 @@ let currentTypeValue = 1;
  * @type {number}
  */
 let rangeCountNeuronenValue = 0;
-
 /**
  * Die untere Schranke des Zufallswertes für den Widerstand in Ohm
  * @type {number}
  */
 let rangeWiderstandMinValue = 0;
-
 /**
  * Die Zeit eines Impulses in ms
  * @type {number}
  */
 let rangeTNetzImpulseValue = 0;
-
 /**
  * Die ober Schranke des Zufallswertes für den Widerstand in Ohm
  * @type {number}
  */
 let rangeWiderstandMaxValue = 0;
-
 /**
  * Die minimale Höhe des Stromes in mA (entspricht der unteren Grenze (Typ: Zufällig))
  * @type {number}
  */
 let rangeINetzMinValue = 0;
-
 /**
  * Die maximale Höhe des Stromes in mA (entspricht der Impulsstärke (Typ: Puls) oder oberen Grenze (Typ: Zufällig))
  * @type {number}
  */
 let rangeINetzMaxValue = 0;
-
 /**
  * Die Art des Stromverlaufs 1=gleichförmiger Impuls, 2=zufällige Kurve
  * @type {number}
@@ -147,7 +141,6 @@ d3.select('#range-countNeuronen')
         rangeCountNeuronenValue = +this.value;
         let txt = "Aktueller Wert: " + rangeCountNeuronenValue.toString() + " LIF Neuronen";
         d3.select('#range-countNeuronen-value').text(txt);
-        runNetSimulation();
     });
 
 d3.select('#range-widerstandMin')
@@ -155,7 +148,6 @@ d3.select('#range-widerstandMin')
         rangeWiderstandMinValue = +this.value;
         let txt = "Aktueller Wert: " + rangeWiderstandMinValue.toString() + " Ohm";
         d3.select('#range-widerstandMin-value').text(txt);
-        runNetSimulation();
     });
 
 d3.select('#range-widerstandMax')
@@ -163,7 +155,6 @@ d3.select('#range-widerstandMax')
         rangeWiderstandMaxValue = +this.value;
         let txt = "Aktueller Wert: " + rangeWiderstandMaxValue.toString() + " Ohm";
         d3.select('#range-widerstandMax-value').text(txt);
-        runNetSimulation();
     });
 
 d3.select('#range-tNetzImpulse')
@@ -171,7 +162,6 @@ d3.select('#range-tNetzImpulse')
         rangeTNetzImpulseValue = +this.value;
         let txt = "Aktueller Wert: " + rangeTNetzImpulseValue.toString() + " ms";
         d3.select('#range-tNetzImpulse-value').text(txt);
-        runSimulation();
     });
 
 d3.select('#range-iNetzMin')
@@ -179,7 +169,6 @@ d3.select('#range-iNetzMin')
         rangeINetzMinValue = +this.value;
         let txt = "Aktueller Wert: " + rangeINetzMinValue.toString() + " mA";
         d3.select('#range-iNetzMin-value').text(txt);
-        runNetSimulation();
     });
 
 d3.select('#range-iNetzMax')
@@ -187,7 +176,6 @@ d3.select('#range-iNetzMax')
         rangeINetzMaxValue = +this.value;
         let txt = "Aktueller Wert: " + rangeINetzMaxValue.toString() + " mA";
         d3.select('#range-iNetzMax-value').text(txt);
-        runNetSimulation();
     });
 
 /**
@@ -197,7 +185,6 @@ d3.select('#range-iNetzMax')
 d3.select('#netzCurrent-type')
     .on("change", function () {
         NetCurrentTypeValue = +this.value;
-        runNetSimulation();
     })
     .property('value', NetCurrentTypeValue);
 
@@ -237,12 +224,12 @@ function setIntialValue() {
     let txt6 = "Aktueller Wert: " + rangeCountNeuronenValue.toString() + " LIF Neuronen";
     d3.select('#range-countNeuronen-value').text(txt6);
 
-    rangeWiderstandUntenValue = document.getElementById('range-widerstandMin').getAttribute('value');
-    let txt7 = "Aktueller Wert: " + rangeWiderstandUntenValue.toString() + " Ohm";
+    rangeWiderstandMinValue = document.getElementById('range-widerstandMin').getAttribute('value');
+    let txt7 = "Aktueller Wert: " + rangeWiderstandMinValue.toString() + " Ohm";
     d3.select('#range-widerstandMin-value').text(txt7);
 
-    rangeWiderstandObenValue = document.getElementById('range-widerstandMax').getAttribute('value');
-    let txt8 = "Aktueller Wert: " + rangeWiderstandObenValue.toString() + " Ohm";
+    rangeWiderstandMaxValue = document.getElementById('range-widerstandMax').getAttribute('value');
+    let txt8 = "Aktueller Wert: " + rangeWiderstandMaxValue.toString() + " Ohm";
     d3.select('#range-widerstandMax-value').text(txt8);
 
     rangeTNetzImpulseValue = document.getElementById('range-tNetzImpulse').getAttribute('value');

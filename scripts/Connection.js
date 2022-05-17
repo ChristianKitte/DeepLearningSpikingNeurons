@@ -25,7 +25,6 @@ class Connection {
 
         // https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Math/random
         this.resistant = Math.random() * (resistentMax - resistentMin) + resistentMin
-        let test = 0;
     }
 
     /**
@@ -43,7 +42,6 @@ class Connection {
             Resistant: this.resistant
         }
     }
-
 
     /**
      * Gibt den durch die Verbindung fließenden Strom an. Dieser hängt von dem Potential des Quellneurons

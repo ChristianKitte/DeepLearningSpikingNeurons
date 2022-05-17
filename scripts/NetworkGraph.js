@@ -1,211 +1,254 @@
-// https://www.youtube.com/watch?v=y2-sgZh49dQ
-// https://github.com/BlastWind/D3.js-Tutorial
-// https://github.com/BlastWind/D3.js-Tutorial
+let _neurons = [];
+let _connections = [];
 
-// https://observablehq.com/@chinwobble/force-layout
-// https://www.pluralsight.com/guides/creating-force-layout-graphs-in-d3
+const lineGenerator = d3.line();
 
-// https://chartio.com/resources/tutorials/how-to-resize-an-svg-when-the-window-is-resized-in-d3-js/
-// https://observablehq.com/@xianwu/force-directed-graph-network-graph-with-arrowheads-and-lab
+let simulation;
+let tooltip = addTooltip();
 
-// https://stackoverflow.com/questions/69246302/d3-why-on-mousehover-field-is-undefined-and-d3-event-is-undefined-too
+let svg;
+let _svgNodes;
+let _svgLinks;
 
-// http://bl.ocks.org/mbostock/2706022
+/**
+ * Erzeugt einen neuen Graphen
+ * @param network Das zugrundeliegende Netzwerk
+ * @returns {*} Die D3 Simulation
+ */
+function createGraph(network) {
+    svg = createSvg();
 
-class NetworkGraph {
-    constructor(network) {
-        this.neurons = network.neurons;
-        this.connections = network.connections;
+    updateData(network);
+    _svgNodes = addNodes(_neurons);
+    _svgLinks = addLinks(_connections);
+    simulation = initializeSimulation();
 
-        //function updateGraph(neurons, connections) {
-        //    this.graph = this.GetGraphData(lifNeurons, connections);
-        //}
-
-
-    }
-
-    createGraph() {
-        // Initialisieren der DataSets für den Graphen
-        this.graph = this.GetGraphData(this.neurons, this.connections);
-
-        // Unsichtbaren ToolTip anlegen (Style in main.css über Klasse)
-        let tooltip = d3.select("body")
-            .append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
-
-        // svg initialisieren
-        d3.select("#svgOutput").remove();
-
-        const svg = d3.select("div#container")
-            .append("svg")
-            .attr("id", "svgOutput")
-            .attr("preserveAspectRatio", "xMinYMin meet")
-            .attr("viewBox", "0 0 400 400")
-            .classed("svg-content", true);
-
-        // node initialisieren
-        const node = svg.selectAll('circle')
-            .data(this.graph.nodes)
-            .enter()
-            .append('circle')
-            .attr('class', 'networkNodeInactive')
-            .attr('r', 5)
-            .attr('fill', 'blue')
-            .attr("width", function (d) {
-                return d.size + 5;
-            })
-            .attr("height", function (d) {
-                return d.size + 5;
-            })
-            .on("mouseover", function (d) {
-                d3.select(this)
-                    .transition()
-                    .duration(350)
-                    .attr("r", 10)
-            })
-            .on("mouseout", function (d) {
-                d3.select(this)
-                    .transition()
-                    .duration(350)
-                    .attr("r", 5)
-            })
-            .on('mouseover.tooltip', function (event, d) {
-                tooltip.transition()
-                    .duration(300)
-                    .style("opacity", .8);
-                tooltip.html(
-                    "ID : " + d.Id + "</br>" +
-                    "InputConnections : " + d.InputConnections + "</br>" +
-                    "OutputConnections : " + d.OutputConnections + "</br>" +
-                    "IncommingCurrent : " + d.IncommingCurrent + "</br>" +
-                    "Spiking : " + d.Spiking + "</br>" +
-                    "OutgoingVoltage : " + d.OutgoingVoltage + "</br>" +
-                    "IncommingConnections : " + d.IncommingConnections + "<p/>" +
-                    "IncommingActiveConenctions : " + d.IncommingActiveConenctions + "</br>" +
-                    "OutgoingConnections : " + d.OutgoingConnections + "</br>")
-                    .style("left", (event.pageX) + "px")
-                    .style("top", (event.pageY + 10) + "px");
-            })
-            .on("mouseout.tooltip", function () {
-                tooltip.transition()
-                    .duration(100)
-                    .style("opacity", 0);
-            })
-            .call(d3.drag()  //sets the event listener for the specified typenames and returns the drag behavior.
-                .on("start", dragstarted) //start - after a new pointer becomes active (on mousedown or touchstart).
-                .on("drag", dragged)      //drag - after an active pointer moves (on mousemove or touchmove).
-                .on("end", dragended) //end - after an active pointer becomes inactive (on mouseup, touchend or touchcancel).
-            );
-
-        // link initialisieren
-        const link = svg
-            .selectAll('path.link')
-            .data(this.graph.links)
-            .enter()
-            .append('path')
-            .attr("class", "links")  // funktioniert noch nicht so richtig
-            .attr('stroke', 'black')
-            .attr('fill', 'none');
-
-        // initialisieren der Simulation
-        const simulation = d3.forceSimulation(this.graph.nodes)
-            .force('charge', d3.forceManyBody() // Legt die Anziehung zwischen den Knoten fest
-                .strength(-500)) // negative Werte führen zu Abstoßung
-            .force('link', d3.forceLink(this.graph.links) // Unterstützt Links zwischen Knoten
-                .id(d => d.Id)  // definiert die ID der Nodes (Default wird der Inex genutzt)
-                .distance(50)) // definiert die Abstände
-            .force('center', d3.forceCenter(200, 200)) // definert das Zentrum der Simulation
-
-        const lineGenerator = d3.line();
-        simulation.on('tick', () => {
-            node.attr('cx', d => d.x);
-            node.attr('cy', d => d.y);
-            link.attr('d', d => lineGenerator([
-                [d.source.x, d.source.y],
-                [d.target.x, d.target.y]])
-            )
-        });
-
-        //When the drag gesture starts, the targeted node is fixed to the pointer
-        //The simulation is temporarily “heated” during interaction by setting the target alpha to a non-zero value.
-        function dragstarted(event, d) {
-            if (!event.active) simulation.alphaTarget(0.3).restart();//sets the current target alpha to the specified number in the range [0,1].
-            d.fy = d.y; //fx - the node’s fixed x-position. Original is null.
-            d.fx = d.x; //fy - the node’s fixed y-position. Original is null.
-        }
-
-        //When the drag gesture starts, the targeted node is fixed to the pointer
-        function dragged(event, d) {
-            d.fx = event.x;
-            d.fy = event.y;
-        }
-
-        //the targeted node is released when the gesture ends
-        function dragended(event, d) {
-            if (!event.active) simulation.alphaTarget(0);
-            d.fx = null;
-            d.fy = null;
-        }
-
-        //return svg.node();
-        return simulation;
-    }
-
-    updateGraph(neurons, connections, simulation) {
-        this.graph = this.GetGraphData(neurons, connections);
-
-        const svg = d3.select("div#container");
-        const nodes = svg.selectAll('circle')
-            .data(this.graph.nodes, function (d) {
-                return d.Id;
-            });
-
-        simulation.nodes(nodes);
-
-        let test = 2;
-    }
-
-    /**
-     * Erzeugt die für den Graphen benötigten Datasets (Nodes, Links/Edges)
-     * @param neurons Ein Array der beteiligten Neuronen
-     * @param connections Ein array der vorhandenen Verbindungen
-     * @returns {{nodes: *[], links: *[]}} Ein Array
-     * @constructor
-     */
-    GetGraphData(neurons = [], connections = []) {
-        let nodes = [];
-        let links = [];
-
-        this.neurons.forEach(
-            (neuron) => {
-                //nodes.push({name: neuron.id});
-                //nodes.push({nameTest: neuron.id, namex: neuron.Spiking});
-                nodes.push({
-                    Id: neuron.id,
-                    InputConnections: neuron.inputConnections.length,
-                    OutputConnections: neuron.outputConnection.length,
-                    IncommingCurrent: neuron.incomingCurrent,
-                    Spiking: neuron.spiking,
-                    OutgoingVoltage: neuron.outgoingVoltag,
-                    IncommingConnections: neuron.incomingConnections,
-                    IncommingActiveConenctions: neuron.incomingActiveConnections,
-                    OutgoingConnections: neuron.outgoingConnection,
-                });
-            }
-        );
-
-        this.connections.forEach(
-            (connection) => {
-                links.push(
-                    {source: connection.from.id, target: connection.to.id}
-                )
-            }
-        );
-
-        return {
-            nodes: nodes,
-            links: links
-        };
-    }
+    return simulation
 }
+
+/**
+ * Erstellt aus der übergebenen Netzbeschreibung zwei für d3 geeignete Array der Nodes und Edges und
+ * legt diese ab.
+ * @param network Die Beschreibung des darzustellenden Netzwerkes
+ */
+function updateData(network) {
+    let graph = GetGraphData(network.neurons, network.connections);
+
+    _neurons = graph.nodes;
+    _connections = graph.links;
+}
+
+/**
+ * Erzeugt das unterliegende SVG Element zur Ausgabe des Graphen
+ * @returns {svg} Das unterleigende SVG Element
+ */
+function createSvg() {
+    // eventuell vorhandenen vorherigen Graphen entfernen
+    d3.select("#svgOutput").remove();
+
+    return d3.select("div#container")
+        .append("svg")
+        .attr("id", "svgOutput")
+        .attr("preserveAspectRatio", "xMinYMin meet")
+        .attr("viewBox", "0 0 400 400")
+        .classed("svg-content", true);
+}
+
+/**
+ * Initialisiert die Simulation
+ * @returns {*}
+ */
+function initializeSimulation() {
+    return d3.forceSimulation(_neurons)
+        .force('charge', d3.forceManyBody() // Legt die Anziehung zwischen den Knoten fest
+            .strength(-500)) // negative Werte führen zu Abstoßung
+        .force('link', d3.forceLink(_connections) // Unterstützt Links zwischen Knoten
+            .id(d => d.Id)  // definiert die ID der Nodes (Default wird der Inex genutzt)
+            .distance(50)) // definiert die Abstände
+        .force('center', d3.forceCenter(200, 200)) // definert das Zentrum der Simulation
+        .on("tick", tick);
+}
+
+/**
+ * Handler für d3 Tick
+ */
+function tick() {
+    _svgNodes.attr("cx", function (d) {
+        return d.x;
+    });
+    _svgNodes.attr("cy", function (d) {
+        return d.y;
+    });
+
+
+    _svgLinks.attr('d', d => lineGenerator([
+        [d.source.x, d.source.y],
+        [d.target.x, d.target.y]])
+    )
+}
+
+/**
+ * Fügt den übergeordneten SVG Element die übergebenen Nodes (Neuronen) hinzu und initialisiert deren
+ * Verhalten.
+ * @param nodes Die hinzuzufügenden Notes (Neuronen)
+ * @returns {*} Die SVG Nodes
+ */
+function addNodes(nodes) {
+    return svg.selectAll('circle')
+        .data(nodes)
+        .enter()
+        .append('circle')
+        .attr('class', 'networkNodeInactive')
+        .attr('r', 5)
+        .attr('fill', 'blue')
+        .attr("width", function (d) {
+            return d.size + 5;
+        })
+        .attr("height", function (d) {
+            return d.size + 5;
+        })
+        .on("mouseover", function (d) {
+            d3.select(this)
+                .transition()
+                .duration(350)
+                .attr("r", 10)
+        })
+        .on("mouseout", function (d) {
+            d3.select(this)
+                .transition()
+                .duration(350)
+                .attr("r", 5)
+        })
+        .on('mouseover.tooltip', function (event, d) {
+            tooltip.transition()
+                .duration(300)
+                .style("opacity", .8);
+            tooltip.html(
+                "ID : " + d.Id + "</br>" +
+                "InputConnections : " + d.InputConnections + "</br>" +
+                "OutputConnections : " + d.OutputConnections + "</br>" +
+                "IncommingCurrent : " + d.IncommingCurrent + "</br>" +
+                "Spiking : " + d.Spiking + "</br>" +
+                "OutgoingVoltage : " + d.OutgoingVoltage + "</br>" +
+                "IncommingConnections : " + d.IncommingConnections + "<p/>" +
+                "IncommingActiveConenctions : " + d.IncommingActiveConenctions + "</br>" +
+                "OutgoingConnections : " + d.OutgoingConnections + "</br>")
+                .style("left", (event.pageX) + "px")
+                .style("top", (event.pageY + 10) + "px");
+        })
+        .on("mouseout.tooltip", function () {
+            tooltip.transition()
+                .duration(100)
+                .style("opacity", 0);
+        })
+        .call(d3.drag()  //sets the event listener for the specified typenames and returns the drag behavior.
+            .on("start", dragstarted) //start - after a new pointer becomes active (on mousedown or touchstart).
+            .on("drag", dragged)      //drag - after an active pointer moves (on mousemove or touchmove).
+            .on("end", dragended) //end - after an active pointer becomes inactive (on mouseup, touchend or touchcancel).
+        );
+}
+
+/**
+ * Fügt den übergeordneten SVG Element die übergebenen Links/Edges (Connections) hinzu und initialisiert deren
+ * Verhalten.
+ * @param links Die hinzuzufügenden Links/Edges (Connections)
+ * @returns {*} Die SVG Links
+ */
+function addLinks(links) {
+    // link initialisieren
+    return svg
+        .selectAll('path.link')
+        .data(links)
+        .enter()
+        .append('path')
+        .attr("class", "links")  // funktioniert noch nicht so richtig
+        .attr('stroke', 'black')
+        .attr('fill', 'none');
+}
+
+/**
+ * Fügt einen Tooltip hinzu
+ * @returns {*} Der zu verwendende Tooltip
+ */
+function addTooltip() {
+    let tooltip = d3.select("body")
+        .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
+    return tooltip;
+}
+
+/**
+ * Event Handler für Drag Start
+ * @param event Das Event
+ * @param d Der Node
+ */
+function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();//sets the current target alpha to the specified number in the range [0,1].
+    d.fy = d.y; //fx - the node’s fixed x-position. Original is null.
+    d.fx = d.x; //fy - the node’s fixed y-position. Original is null.
+}
+
+/**
+ * Event Handler für Dragged
+ * @param event Das Event
+ * @param d Der Node
+ */
+function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+}
+
+/**
+ * Event Handler für DragEnd
+ * @param event Das Event
+ * @param d Der Node
+ */
+function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+}
+
+/**
+ * Erzeugt die für den Graphen benötigten Datasets (Nodes, Edges)
+ * @param neurons Ein Array der beteiligten Neuronen
+ * @param connections Ein array der vorhandenen Verbindungen
+ * @returns {{nodes: *[], links: *[]}} Ein Array
+ */
+function GetGraphData(neurons = [], connections = []) {
+    let nodes = [];
+    let links = [];
+
+    neurons.forEach(
+        (neuron) => {
+            nodes.push({
+                Id: neuron.id,
+                InputConnections: neuron.inputConnections.length,
+                OutputConnections: neuron.outputConnection.length,
+                IncommingCurrent: neuron.incomingCurrent,
+                Spiking: neuron.spiking,
+                OutgoingVoltage: neuron.outgoingVoltag,
+                IncommingConnections: neuron.incomingConnections,
+                IncommingActiveConenctions: neuron.incomingActiveConnections,
+                OutgoingConnections: neuron.outgoingConnection,
+            });
+        }
+    );
+
+    connections.forEach(
+        (connection) => {
+            links.push(
+                {source: connection.from.id, target: connection.to.id}
+            )
+        }
+    );
+
+    return {
+        nodes: nodes,
+        links: links
+    };
+}
+
+
