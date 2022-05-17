@@ -45,6 +45,8 @@ let runNetworkSimulation = false;
  * @type {number}
  */
 let counter = 0;
+let newGraph;
+let newSession;
 
 /**
  * Erzeugt einen Netzwergraphen auf Basis der Einstellungen zur Lösung 2 und bringt
@@ -54,14 +56,20 @@ function createNetworkGraph() {
     network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
     console.log(network.toJSON());
 
-    let newGraph = new NetworkGraph(network);
+    newGraph = new NetworkGraph(network);
+    newSession = newGraph.createGraph();
 }
+
+let pulseTimer = 0;
+let pulse = true;
 
 /**
  * Startet die Simulation
  */
 function runNetSimulation() {
     if (runNetworkSimulation) {
+        pulseTimer = rangeTNetzImpulseValue // Pulszeit in ms
+
         alert('starte Simulation...');
         nextNetSimulationStep();
     }
@@ -72,7 +80,14 @@ function runNetSimulation() {
  * selbst wieder auf
  */
 function nextNetSimulationStep() {
-    network.computeNexStep(1, NetCurrentTypeValue, rangeINetzMinValue, rangeINetzMaxValue, rangeTNetzImpulseValue);
+    network.computeNexStep(1, NetCurrentTypeValue, rangeINetzMinValue, rangeINetzMaxValue, pulse);
+    newGraph.updateGraph(network.neurons, network.connections, newSession);
+
+    pulseTimer--;
+    if (pulseTimer <= 0) {
+        pulse = !pulse;
+        pulseTimer = rangeTNetzImpulseValue;
+    }
 
     if (runNetworkSimulation) {
         setTimeout(nextNetSimulationStep, 1);

@@ -40,9 +40,8 @@ div.simulation-config {
     stroke-opacity: 0.6;
 }
 
-.nodes circle {
-    stroke: #fff;
-    stroke-width: 1.5px;
+.networkNodeInactive {
+    fill: lightslategray;
 }
 
 #svg {
@@ -75,4 +74,22 @@ div.simulation-config {
     margin-top: 5px;
     margin-bottom: 5px;
     width: 90%;
+}
+
+.links line {
+    stroke: red;
+    stroke-width: 2.5;
+}
+
+div.tooltip {
+    position: absolute;
+    background-color: lemonchiffon;
+    width: auto;
+    height: auto;
+    padding: 10px;
+    border-style: solid;
+    border-radius: 4px;
+    border-width: 1px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, .5);
+    pointer-events: none;
 }

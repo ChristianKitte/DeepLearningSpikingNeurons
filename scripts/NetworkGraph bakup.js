@@ -12,19 +12,11 @@
 
 // http://bl.ocks.org/mbostock/2706022
 
-class NetworkGraph {
+class NetworkGraph_ {
     constructor(network) {
         this.neurons = network.neurons;
         this.connections = network.connections;
 
-        //function updateGraph(neurons, connections) {
-        //    this.graph = this.GetGraphData(lifNeurons, connections);
-        //}
-
-
-    }
-
-    createGraph() {
         // Initialisieren der DataSets für den Graphen
         this.graph = this.GetGraphData(this.neurons, this.connections);
 
@@ -148,23 +140,13 @@ class NetworkGraph {
             d.fy = null;
         }
 
-        //return svg.node();
-        return simulation;
+        function updateGraph(neurons, connections) {
+            this.graph = this.GetGraphData(lifNeurons, connections);
+        }
+
+        return svg.node();
     }
 
-    updateGraph(neurons, connections, simulation) {
-        this.graph = this.GetGraphData(neurons, connections);
-
-        const svg = d3.select("div#container");
-        const nodes = svg.selectAll('circle')
-            .data(this.graph.nodes, function (d) {
-                return d.Id;
-            });
-
-        simulation.nodes(nodes);
-
-        let test = 2;
-    }
 
     /**
      * Erzeugt die für den Graphen benötigten Datasets (Nodes, Links/Edges)
