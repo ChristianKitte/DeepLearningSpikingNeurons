@@ -71,13 +71,14 @@ let pulseTimer = 0;
 let pulse = true;
 
 
-
 /**
  * Erzeugt einen Netzwergraphen auf Basis der Einstellungen zur Lösung 2 und bringt
  */
 function createNetworkGraph() {
     network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
     newSession = createGraph(network);
+
+    CreateNodeArray(network, 'box-container');
 }
 
 createNetworkGraph();
@@ -99,6 +100,10 @@ function runNetSimulation() {
  */
 function nextNetSimulationStep() {
     network.computeNexStep(1, NetCurrentTypeValue, rangeINetzMinValue, rangeINetzMaxValue, pulse);
+    UpdateNodeArray(network, 'box-container')
+
+    //newNetwork = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
+    //newSession = createGraph(network);
 
     pulseTimer--;
     if (pulseTimer <= 0) {
@@ -117,6 +122,10 @@ function nextNetSimulationStep() {
  * Startet die Simulation
  */
 function startNetSimulation() {
+    //d3.select('#range-countNeuronen-value').attr("disabled");
+    //d3.select('#range-widerstandMin-value').attr("disabled");
+    //d3.select('#range-widerstandMax-value').attr("disabled");
+
     runNetworkSimulation = true;
     runNetSimulation();
 }
@@ -125,10 +134,11 @@ function startNetSimulation() {
  * Beendet die Simulation
  */
 function stopNetSimulation() {
+    //d3.select('#range-countNeuronen-value').removeAttribute("disabled");
+    //d3.select('#range-widerstandMin-value').removeAttribute("disabled");
+    //d3.select('#range-widerstandMax-value').removeAttribute("disabled");
+
     runNetworkSimulation = false;
-    newSession.stop();
 }
-
-
 
 

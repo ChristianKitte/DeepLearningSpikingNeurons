@@ -44,14 +44,25 @@
             <span class="navbar-brand mb-0 h1">
                 Online Medieninformatik Master - Modul Deep Learning - SS 2022 - HS Emden-Leer</span>
         </div>
+
         <div class="container-fluid">
-            <p class="fs-5">Einsendeaufgabe EA2 : Erstellen einer interaktiven Simulation eines Netzwerkes spikender
+            <p class="fs-5">
+                Einsendeaufgabe EA2 : Erstellen einer interaktiven Simulation eines Netzwerkes spikender
                 Neuronen auf Basis eines Leaky Integrate and Fire (LIF) Neuron.<br>
                 <a href="https://github.com/ChristianKitte/DeepLearningSpikingNeurons" target="_blank">
                     <em>Der Sourcecode ist bei GitHub einsehbar</em>
                 </a>
             </p>
         </div>
+
+        <div class="simulation-config">
+            <input class="form-check-input" type="checkbox" checked id="check-playSound">
+            <label class="form-check-label" for="check-playSound">
+                Bei der Simulation einen Ton für jeden Spike ausgeben?
+            </label>
+
+        </div>
+
     </nav>
 
     <!-- Bootsrap Nav -->
@@ -243,8 +254,8 @@
                         <div class="simulation-config">
                             <label class="form-label" for="netzCurrent-type">Wählen sie die Stromart:</label>
                             <select class="form-select" id="netzCurrent-type" aria-label="Default select example">
-                                <option>Bitte wählen sie den Typ aus:</option>
-                                <option selected value="1">Impuls</option>
+                                <option selected>Bitte wählen sie den Typ aus:</option>
+                                <option value="1">Impuls</option>
                                 <option value="2">Zufall</option>
                             </select>
                         </div>
@@ -260,8 +271,14 @@
                     </div>
 
                 </div>
+
                 <div id="container" class="col svg-container">
+
+                    <div id="box-container">
+                    </div>
                 </div>
+
+
             </div>
         </div>
 
@@ -355,7 +372,6 @@
 <script src="scripts/RangeValues.js"></script>
 <script src="scripts/NetworkGraph.js"></script>
 <script src="scripts/main.js"></script>
-
 </body>
 
 </html>

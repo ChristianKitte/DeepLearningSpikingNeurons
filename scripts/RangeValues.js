@@ -1,4 +1,14 @@
 /////////////////
+// Werte Global
+/////////////////
+
+/**
+ * True, wenn ein Sound bei jedem Spiken ausgegeben werden soll, ansonsten false
+ * @type {boolean}
+ */
+let playSoundOnSpike = false;
+
+/////////////////
 // Werte Lösung 1
 /////////////////
 
@@ -77,6 +87,19 @@ setIntialValue();
 
 // d=>{} funktioniert nicht, functio(){} ja!
 // Dies Script muss am Ende des HTML geladen werden, da sonst der Slider nciht gefunden wird...
+
+/////////////////
+// Werte Global
+/////////////////
+
+d3.select('#check-playSound')
+    .on("change", function () {
+        if (d3.select("#check-playSound").property("checked")) {
+            playSoundOnSpike = true;
+        } else {
+            playSoundOnSpike = false;
+        }
+    })
 
 /////////////////
 // Werte Lösung 1
@@ -192,6 +215,15 @@ d3.select('#netzCurrent-type')
  * Liest die aktuell im Html für Lösung 1 und 2 gesetzten Werte aus, belegt die Variablen und setzt den initialen Texte
  */
 function setIntialValue() {
+    /////////////////
+    // Werte Global
+    /////////////////
+    if (d3.select("#check-playSound").property("checked")) {
+        playSoundOnSpike = true;
+    } else {
+        playSoundOnSpike = false;
+    }
+
     /////////////////
     // Werte Lösung 1
     /////////////////

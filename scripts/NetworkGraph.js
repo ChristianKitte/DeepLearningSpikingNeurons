@@ -251,4 +251,60 @@ function GetGraphData(neurons = [], connections = []) {
     };
 }
 
+function Update(network) {
+    /*
+    updateData(network);
 
+    let nodeElements = svg.selectAll('circle')
+        .data(_neurons, function (d) {
+            return d.id
+        });
+
+    let enterSelection = nodeElements.enter().append('circle').attr("r", 10);
+
+    simulation.nodes(_neurons);
+    simulation.force("link").links(_connections);
+    simulation.alphaTarget(0.1).restart();
+
+    let nodeElements = svg.selectAll('circle').enter();
+
+    for (let x = 0; x < nodeElements.length; x++) {
+        console.log(_svgNodes.nodes[x].toJSON());
+    }*/
+
+}
+
+function CreateNodeArray(network, id) {
+    const box = document.getElementById(id);
+
+    for (let x = 0; x < network.neurons.length; x++) {
+        let newSpan = document.createElement('div');
+        let newNode = network.neurons[x];
+
+        newSpan.id = newNode.id;
+        newSpan.classList.add('NodeArrayElement');
+
+        box.appendChild(newSpan);
+    }
+}
+
+function UpdateNodeArray(network, id) {
+    for (let x = 0; x < network.neurons.length; x++) {
+        let newNode = network.neurons[x];
+        let newHtmlNode = document.getElementById(newNode.id);
+
+        newHtmlNode.classList.remove('NodeArrayElement');
+        newHtmlNode.classList.remove('inactiveNodeArrayElement');
+        newHtmlNode.classList.remove('activeNodeArrayElement');
+
+        if (newNode.spiking) {
+            newHtmlNode.classList.add('activeNodeArrayElement')
+        } else {
+            newHtmlNode.classList.add('inactiveNodeArrayElement')
+        }
+    }
+}
+
+//https://www.mediaevent.de/css/display-flex.html
+//https://bobbyhadz.com/blog/javascript-create-element-with-class
+//https://www.javascripttutorial.net/javascript-dom/javascript-createelement/

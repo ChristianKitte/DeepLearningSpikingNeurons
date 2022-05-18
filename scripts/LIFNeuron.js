@@ -66,7 +66,9 @@ class LIFNeuron {
         this.t_rest = this.tau_rest;
 
         // signal
-        beep(2, 400, 100);
+        if (playSoundOnSpike) {
+            beep(2, 400, 100);
+        }
 
         this.u_out = this.u_outValue;
         return [this.u, this.t_rest, this.u_out];
