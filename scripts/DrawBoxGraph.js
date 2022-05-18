@@ -25,7 +25,7 @@ function DrawBoxGraph(divID, dt, network, reset = false) {
     }
     activeNodesCount.push(countSpiking);
 
-    var activeNodes = {
+    let activeNodes = {
         x: simulationTimeCount,
         y: activeNodesCount,
         mode: 'lines',
@@ -33,9 +33,9 @@ function DrawBoxGraph(divID, dt, network, reset = false) {
         name: 'Anzahl feuernder Neuronen'
     };
 
-    var data = [activeNodes];
+    let data = [activeNodes];
 
-    var layout = {
+    let layout = {
         title: 'Laufzeit der Simulation in ms',
         xaxis: {
             title: 'Zeit in ms',

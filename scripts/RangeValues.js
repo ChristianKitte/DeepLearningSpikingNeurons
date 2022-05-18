@@ -14,12 +14,12 @@ let playSoundOnSpike = false;
 
 /**
  * Die gesammte Zeitdauer der Ausgabe in ms
- * @type {number}
+ * @type {string}
  */
 let rangeTgesamtValue = 0;
 /**
  * Die Zeit zwischen zwei Rechenschritte in ms
- * @type {number}
+ * @type {string}
  */
 let rangeDtValue = 0;
 /**
@@ -94,11 +94,7 @@ setIntialValue();
 
 d3.select('#check-playSound')
     .on("change", function () {
-        if (d3.select("#check-playSound").property("checked")) {
-            playSoundOnSpike = true;
-        } else {
-            playSoundOnSpike = false;
-        }
+        playSoundOnSpike = !!d3.select("#check-playSound").property("checked");
     })
 
 /////////////////
@@ -225,11 +221,7 @@ function setIntialValue() {
     /////////////////
     // Werte Global
     /////////////////
-    if (d3.select("#check-playSound").property("checked")) {
-        playSoundOnSpike = true;
-    } else {
-        playSoundOnSpike = false;
-    }
+    playSoundOnSpike = !!d3.select("#check-playSound").property("checked");
 
     /////////////////
     // Werte Lösung 1

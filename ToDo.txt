@@ -1,6 +1,0 @@
-1) Netzwerkklasse erstellen
-2) Netzwerk erstellen mit dynamischer Anzahl an Neuronen
-3) Grundsätzlcih in die Seite einbetten (Neuer Reiter mit Einstellungen Min, Max, Anzahl, Pulshöhe, Pulslänge bei Click)
-4) Visualisierung als D3 Graph
-5) Clickempfindlich machen
-6) Ergebnisse anzeigen
