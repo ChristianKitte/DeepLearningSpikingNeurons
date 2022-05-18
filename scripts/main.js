@@ -3,7 +3,7 @@
  */
 setIntialValue();
 /**
- * Starte die Simulation für Lösung 1 (2 zu starten ist nicht sinnvoll)
+ * Starte die Simulation für Lösung 1
  */
 runSimulation();
 
@@ -72,22 +72,17 @@ let pulse = true;
 
 
 /**
- * Erzeugt einen Netzwergraphen auf Basis der Einstellungen zur Lösung 2 und bringt
- */
-function createNetworkGraph() {
-    network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
-    newSession = createGraph(network);
-
-    CreateNodeArray(network, 'box-container');
-}
-
-createNetworkGraph();
-
-/**
  * Startet die Simulation
  */
-function runNetSimulation() {
-    if (runNetworkSimulation) {
+function startNetSimulation() {
+    if (!runNetworkSimulation) {
+
+        if (NetCurrentTypeValue === "0") {
+            alert('Sie müssen die Art des Stroms auswählen...');
+            return;
+        }
+
+        runNetworkSimulation = true;
         pulseTimer = rangeTNetzImpulseValue
 
         alert('starte Simulation...');
@@ -96,14 +91,20 @@ function runNetSimulation() {
 }
 
 /**
+ * Beendet die Simulation
+ */
+function stopNetSimulation() {
+    runNetworkSimulation = false;
+}
+
+/**
  * Führt denn nächsten Simulationsschritt aus und ruft sich am Ende mit einer Verzögerung von 1 ms wieder auf
  */
 function nextNetSimulationStep() {
     network.computeNexStep(1, NetCurrentTypeValue, rangeINetzMinValue, rangeINetzMaxValue, pulse);
-    UpdateNodeArray(network, 'box-container')
 
-    //newNetwork = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
-    //newSession = createGraph(network);
+    UpdateNodeArray(network, 'box-container')
+    DrawBoxGraph('box-Plot',1,network);
 
     pulseTimer--;
     if (pulseTimer <= 0) {
@@ -114,31 +115,22 @@ function nextNetSimulationStep() {
     if (runNetworkSimulation) {
         setTimeout(nextNetSimulationStep, 1);
     } else {
+        CreateNodeArray(network, 'box-container');
         alert('beende Simulation...');
     }
 }
 
 /**
- * Startet die Simulation
+ * Erzeugt einen Netzwergraphen auf Basis der Einstellungen zur Lösung 2 und bringt
  */
-function startNetSimulation() {
-    //d3.select('#range-countNeuronen-value').attr("disabled");
-    //d3.select('#range-widerstandMin-value').attr("disabled");
-    //d3.select('#range-widerstandMax-value').attr("disabled");
+function createNetworkGraph() {
+    network = new Network(rangeCountNeuronenValue, rangeWiderstandMinValue, rangeWiderstandMaxValue);
+    newSession = createGraph(network);
 
-    runNetworkSimulation = true;
-    runNetSimulation();
+    CreateNodeArray(network, 'box-container');
 }
 
 /**
- * Beendet die Simulation
+ * Starte die Vorbereitung für Lösung 2
  */
-function stopNetSimulation() {
-    //d3.select('#range-countNeuronen-value').removeAttribute("disabled");
-    //d3.select('#range-widerstandMin-value').removeAttribute("disabled");
-    //d3.select('#range-widerstandMax-value').removeAttribute("disabled");
-
-    runNetworkSimulation = false;
-}
-
-
+createNetworkGraph();

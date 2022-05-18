@@ -62,7 +62,7 @@ class Network {
                 triggerCurrent = currentMin;
             }
 
-            console.log(triggerCurrent);
+            //console.log(triggerCurrent);
             this.neurons[0].CalculateTimeStep(triggerCurrent);
 
             for (let x = 0; x < this.neurons.length; x++) {

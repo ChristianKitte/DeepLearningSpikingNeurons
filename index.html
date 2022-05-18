@@ -181,24 +181,26 @@
             <div class="row">
                 <div class="row" id="info-text2">
                     <p class="fs-5 output-text">Auf dieser Seite wird ein Netzwerk aus Leaky Integrate and Fire (LIF)
-                        Neuronen graphisch dargestellt und anhand der eingestellten Parameter (links) ausgeführt. Der
-                        einzelne Berechnungsschritt der Simulation ist hierbei fest und beträgt eine Millisekunde.
+                        Neuronen graphisch dargestellt und anhand der eingestellten Parameter (links) ausgeführt. Die
+                        einzelnen Berechnungsschritt der Simulation sind hierbei fest und betragen eine Millisekunde.
                     </p>
                     <p class="fs-5 output-text">
                         Grundsätzlich kann zwischen einer getakteten Stromquelle sowie einer zufälligen Stromkurve
-                        gewählt werden. Sie stellen das Äquivalent zu einem Spike Train dar. Auf der linken Seite sind
-                        alle Möglichkeiten für die Einstellung der Stromquelle zu sehen. Die obere Grenze stellt hierbei
-                        die Stromstärke des Stromimpulses dar, sofern dieser Typ gewählt wurde.
+                        gewählt werden. Bei der Stromquelle kann zudem der Bereich der Stromstärke sowie die Pulslänge
+                        eingestellt werden. Sie stellen das Äquivalent zu einem Spike Train dar.
+
+                        Weiter kann die Anzahl der LIF Neuronen sowie der Widerstandsbereich zwischen den LIF Neuronen
+                        eingestellt werden. Ein kleiner Widerstand steht für eine "gute" Verbindung.
                     </p>
                     <p class="fs-5 output-text">
-                        Auf der rechten Seite wird der Graph selbst angezeigt. Rote Knoten und Verbindungen zeigen
-                        Aktivität an. Die Dauer der zugrunde gelegten Spikes richtet sich hierbei vereinfacht nach der
-                        Dauer der Ruhezeit und ist fest vorgegeben.
-                    </p>
-                    <p class="fs-5 output-text">
-                        Jede Verbindung zwischen zwei Neuronen verfügt über einen links in seinen Grenzen einstellbaren,
-                        zufällig gewählten Widerstand. Je besser eine Verbindung etabliert ist, umso kleiner ist dieser
-                        Widerstand. In anderen Modellen wird dies durch ein höheres Gewicht ausgedrückt.
+                        Auf der rechten Seite werden Angaben zur Netzaktivität ausgegeben. Ganz oben werden die LIF
+                        Neuronen visualisiert, darunter die Anzahl der Spikes je Milisekunde. Der Graph bleibt bei der
+                        Beendigung weiterhin verfügbar und kann so ausgewertet werden.
+
+                        Als letztes wird der Graph selbst visuell ausgegeben. Nodes stellen die LIF Neuronen dar, die
+                        Kanten die mit einem Widerstand belasteten Verbindungen. Als Netzstruktur wurde ein Ball
+                        gewählt, so dass jedes Neuron mit jedem anderen verbunden ist. Die Dauer der zugrunde gelegten
+                        Spikes richten sich hierbei vereinfacht nach der Dauer der Ruhezeit und sind fest vorgegeben.
                     </p>
                 </div>
 
@@ -254,7 +256,7 @@
                         <div class="simulation-config">
                             <label class="form-label" for="netzCurrent-type">Wählen sie die Stromart:</label>
                             <select class="form-select" id="netzCurrent-type" aria-label="Default select example">
-                                <option selected>Bitte wählen sie den Typ aus:</option>
+                                <option value="0" selected>Bitte wählen sie den Typ aus:</option>
                                 <option value="1">Impuls</option>
                                 <option value="2">Zufall</option>
                             </select>
@@ -272,12 +274,28 @@
 
                 </div>
 
-                <div id="container" class="col svg-container">
-
+                <div class="col">
                     <div id="box-container">
+                        <p class="fs-6">Jedes Objekt stellt ein LIF Neuron des Graphen dar. Spikende Neuronen werden in
+                            rot dargestellt.</p>
                     </div>
+                    <div>
+                        <p class="fs-6">In dem zur Laufzeit angezeigten Diagramm werden die Anzahl der Spikes je
+                            Millisekunde in einem
+                            <a href="https://en.wikipedia.org/wiki/Scatter_plot" target="_blank">
+                                Scatter Plot</a> dargestellt. Weitere Informationen zur Bedienung können Sie
+                            <a href="https://plotly.com/chart-studio-help/zoom-pan-hover-controls/#step-1-introduction"
+                               target="_blank">
+                                hier
+                            </a> erhalten.</p>
+                    </div>
+                    <div id="box-Plot"></div>
+                    <div>
+                        <p class="fs-6">Der Graph zeigt das aktuell verwendete Netzwerk. Knoten stellen die LIF Neuronen
+                            dar, die Kanten die Verbindungen untereinander.</p>
+                    </div>
+                    <div id="container" class="col svg-container"></div>
                 </div>
-
 
             </div>
         </div>
@@ -310,10 +328,14 @@
                         HTML Dokumenten verwendet werden kann. D3 fokussiert hierbei auf die datengetriebene
                         Darstellung von Daten und deren (interaktiven) Visualisierung.
 
-                        Auch wenn D3 bereits etwas älter ist, so ist es nach wie vor weit verbreitte, was nicht
-                        zuletzt auch an dessen Umfangreichen Funktionalität liegt. Der Einsatz von D3 gestaltet sich
-                        in der Praxis recht einfach, jedoch ist die anfängliche Lernkurve eher als steil
-                        anzusehen.
+                        Auch wenn D3 bereits etwas älter ist, so ist es nach wie vor weit verbreitet, was nicht
+                        zuletzt auch an dessen Umfangreichen Funktionalität liegt. In dieser Anwendung wurde es
+                        zum Erstellen des
+                        <a href="https://en.wikipedia.org/wiki/Force-directed_graph_drawing" target="_blank">Force
+                            Directed Graphen</a>
+                        und im Hintegrund für die Seitenmanipulation verwendet.
+                        Der Einsatz von D3 gestaltet sich theoretisch in der Praxis recht einfach, jedoch ist die
+                        anfängliche Lernkurve eher als steil anzusehen.
                     </p>
                 </li>
                 <li>
@@ -322,8 +344,8 @@
                     </h6>
                     <p class="fs-6">
                         Plotly ist eine verbreitete Grafikbibliothek mit Schnittstellen zu verschiedenen Sprachen
-                        wie Python, R oder JavaScript. In dieser Lösung wird Plotly als leichtgewichtige Lösung zum
-                        Erstellen von Tortengrafiken verwendet.
+                        wie Python, R oder JavaScript. In dieser Lösung wird Plotly als leichtgewichtige, aber schnelle
+                        Lösung zum Erstellen von Scatter Plots verwendet.
                     </p>
                 </li>
             </ul>
@@ -335,13 +357,10 @@
             </h5>
 
             <p class="fs-6">
-                Die hier vorgestellte Umsetzung der Aufgabenstellung teilt sich in zwei einzelnen Bereichen und
-                ist somit in Bezug zur Aufgabenstellung freier umgesetzt. Bei dem ersten Bereich handelt es
-                sich um eine konfigurierbare Simulation eines einzelnen LIF Neuron, beim zweiten um eine
-                Simulation dessen Verhaltens im Rahmen eines Netzwerkes.
-            </p>
-            <p class="fs-6">
-                Übersicht der zugörigen Dateien...
+                Die hier vorgestellte Umsetzung der Aufgabenstellung teilt sich in zwei einzelne Lösungen und
+                ist somit in Bezug zur Aufgabenstellung freier umgesetzt. Bei der ersten Lösung handelt es
+                sich um eine konfigurierbare Simulation zweier verbundener LIF Neuronen. Die zweite Lösung beinhaltent
+                eine Simulation zu dessen Verhalten innerhalb eines Netzwerkes.
             </p>
             <p class="fs-6">
                 Beide Simulationen basieren auf das Modell eines Leaky and fire neuron (LIF Neuron). Hierunter
@@ -353,7 +372,9 @@
             <p class="fs-6">
                 Zur zweiten Simulation: ....
             </p>
-
+            <p class="fs-6">
+                Aus der Beschäftigung mit den beiden Lösungen konnten die folgenden Rückschlüsse gezogen werden...
+            </p>
         </div>
 
     </div>
@@ -368,9 +389,9 @@
         crossorigin="anonymous"></script>
 
 <!-- Eigene JavaScripte -->
-
 <script src="scripts/RangeValues.js"></script>
 <script src="scripts/NetworkGraph.js"></script>
+<script src="scripts/DrawBoxGraph.js"></script>
 <script src="scripts/main.js"></script>
 </body>
 

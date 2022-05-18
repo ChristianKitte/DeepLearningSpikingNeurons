@@ -164,6 +164,7 @@ d3.select('#range-countNeuronen')
         rangeCountNeuronenValue = +this.value;
         let txt = "Aktueller Wert: " + rangeCountNeuronenValue.toString() + " LIF Neuronen";
         d3.select('#range-countNeuronen-value').text(txt);
+        createNetworkGraph();
     });
 
 d3.select('#range-widerstandMin')
@@ -171,6 +172,7 @@ d3.select('#range-widerstandMin')
         rangeWiderstandMinValue = +this.value;
         let txt = "Aktueller Wert: " + rangeWiderstandMinValue.toString() + " Ohm";
         d3.select('#range-widerstandMin-value').text(txt);
+        createNetworkGraph();
     });
 
 d3.select('#range-widerstandMax')
@@ -178,6 +180,7 @@ d3.select('#range-widerstandMax')
         rangeWiderstandMaxValue = +this.value;
         let txt = "Aktueller Wert: " + rangeWiderstandMaxValue.toString() + " Ohm";
         d3.select('#range-widerstandMax-value').text(txt);
+        createNetworkGraph();
     });
 
 d3.select('#range-tNetzImpulse')
@@ -185,6 +188,7 @@ d3.select('#range-tNetzImpulse')
         rangeTNetzImpulseValue = +this.value;
         let txt = "Aktueller Wert: " + rangeTNetzImpulseValue.toString() + " ms";
         d3.select('#range-tNetzImpulse-value').text(txt);
+        createNetworkGraph();
     });
 
 d3.select('#range-iNetzMin')
@@ -192,6 +196,7 @@ d3.select('#range-iNetzMin')
         rangeINetzMinValue = +this.value;
         let txt = "Aktueller Wert: " + rangeINetzMinValue.toString() + " mA";
         d3.select('#range-iNetzMin-value').text(txt);
+        createNetworkGraph();
     });
 
 d3.select('#range-iNetzMax')
@@ -199,6 +204,7 @@ d3.select('#range-iNetzMax')
         rangeINetzMaxValue = +this.value;
         let txt = "Aktueller Wert: " + rangeINetzMaxValue.toString() + " mA";
         d3.select('#range-iNetzMax-value').text(txt);
+        createNetworkGraph();
     });
 
 /**
@@ -208,6 +214,7 @@ d3.select('#range-iNetzMax')
 d3.select('#netzCurrent-type')
     .on("change", function () {
         NetCurrentTypeValue = +this.value;
+        createNetworkGraph();
     })
     .property('value', NetCurrentTypeValue);
 
