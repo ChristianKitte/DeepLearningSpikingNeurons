@@ -16,6 +16,8 @@
 
 [zur Webseite](https://deep-learning.ckitte.de/ea2/)
 
+## Umsetzung
+
 Die hier vorgestellte Umsetzung der Aufgabenstellung teilt sich in zwei einzelne Lösungen. Bei der ersten Lösung handelt es  sich um eine konfigurierbare Simulation zweier verbundener LIF Neuronen. Die zweite Lösung beinhaltet eine Simulation zum Verhalten des LIF Neurons innerhalb eines größeren Netzwerkes. Der gesamte Source Code ist frei auf [GitHub](https://github.com/ChristianKitte/DeepLearningSpikingNeurons) verfügbar. Daher wird an dieser Stelle nicht zu tief auf den Code eingegangen.
 
 ## Leaky Integrate and Fire (LIF) Neuron
