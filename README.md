@@ -12,7 +12,7 @@
 
 ---
 
-### Einsendeaufgabe EA2 : Erstellung einer Webanwendung zur Simulation und Visualisierung eines Netzwerkes mit Spiking Neurons.
+### Einsendeaufgabe EA2 : Erstellung einer Webanwendung zur Simulation und Visualisierung eines Netzwerks mit Spiking Neurons.
 
 [zur Webseite](https://deep-learning.ckitte.de/ea2/)
 
