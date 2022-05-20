@@ -113,7 +113,10 @@ function nextNetSimulationStep() {
     }
 
     if (runNetworkSimulation) {
-        setTimeout(nextNetSimulationStep, 1);
+        /**
+         * An dieser Stelle erfolgt die Dehnung der Modellzeit, hier 1 zu 100 ms
+         */
+        setTimeout(nextNetSimulationStep, 100);
     } else {
         CreateNodeArray(network, 'box-container');
         alert('beende Simulation...');

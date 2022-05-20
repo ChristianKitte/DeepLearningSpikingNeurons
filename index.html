@@ -194,8 +194,9 @@
                 <div class="row" id="info-text2">
                     <p class="fs-5 output-text">Auf dieser Seite wird ein Netzwerk aus Leaky Integrate and Fire (LIF)
                         Neuronen simuliert und ausgewertet. Verschiedene Parameter können dabei frei gewählt werden.
-                        Der Berechnungsschritt ist mit einer Millisekunde fest vorgegeben. Im Abschnitt
-                        <strong>Dokumentation</strong> finden sie eine ausführliche Erklärung hierzu.
+                        Der Berechnungsschritt ist mit einer Millisekunde fest vorgegeben, jedoch erfolgt die Ausgabe
+                        in 100 ms Schritten. <strong>100 ms stellen somit 1 ms in der Simulation dar</strong>. Im
+                        Abschnitt <strong>Dokumentation</strong> finden sie eine ausführliche Erklärung hierzu.
                     </p>
 
                     <ul>
@@ -609,7 +610,8 @@
 
             <p class="fs-6">Wird im weiteren Verlauf der Widerstand nochmals auf dann 0,038 Ohm
                 <strong>verringert</strong>, so stellt man eine <strong>sehr hohe Korrelation beim Spiken</strong>
-                fest. Beide Neuronen feuern zusammen:
+                fest, was an Hebb's Rule erinnert: Wire together, Fire together sofern die Verbindung stark genug ist.
+                Beide Neuronen feuern zusammen:
             </p>
 
             <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-10-22-image.png">

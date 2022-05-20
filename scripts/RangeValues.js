@@ -83,15 +83,21 @@ let rangeINetzMaxValue = 0;
  */
 let NetCurrentTypeValue = 1;
 
+/**
+ * Setzt die Initialen Werte der Parameter auf Basis der HTML Werte
+ */
 setIntialValue();
 
-// d=>{} funktioniert nicht, functio(){} ja!
-// Dies Script muss am Ende des HTML geladen werden, da sonst der Slider nciht gefunden wird...
+// d=>{} funktioniert nicht, function(){} ja!
+// Dies Script sollte am Ende des HTML geladen werden, da sonst die Slider nicht gefunden werden...
 
 /////////////////
 // Werte Global
 /////////////////
 
+/**
+ * OnChange Event Handler für check-playSound
+ */
 d3.select('#check-playSound')
     .on("change", function () {
         playSoundOnSpike = !!d3.select("#check-playSound").property("checked");
@@ -100,6 +106,10 @@ d3.select('#check-playSound')
 /////////////////
 // Werte Lösung 1
 /////////////////
+
+/**
+ * OnInput Event Handler für range-tgesamt
+ */
 d3.select('#range-tgesamt')
     .on("input", function () {
         rangeTgesamtValue = +this.value;
@@ -108,6 +118,9 @@ d3.select('#range-tgesamt')
         runSimulation();
     });
 
+/**
+ * OnInput Event Handler für range-dt
+ */
 d3.select('#range-dt')
     .on("input", function () {
         rangeDtValue = +this.value;
@@ -116,6 +129,9 @@ d3.select('#range-dt')
         runSimulation();
     });
 
+/**
+ * OnInput Event Handler für range-timpulse
+ */
 d3.select('#range-timpulse')
     .on("input", function () {
         rangeTimpulseValue = +this.value;
@@ -124,6 +140,9 @@ d3.select('#range-timpulse')
         runSimulation();
     });
 
+/**
+ * OnInput Event Handler für range-imax
+ */
 d3.select('#range-imax')
     .on("input", function () {
         rangeImaxValue = +this.value;
@@ -132,6 +151,9 @@ d3.select('#range-imax')
         runSimulation();
     });
 
+/**
+ * OnInput Event Handler für range-rmax
+ */
 d3.select('#range-rmax')
     .on("input", function () {
         rangeRmaxValue = +this.value;
@@ -141,8 +163,7 @@ d3.select('#range-rmax')
     });
 
 /**
- * Bei Option und einer Zahl als Value kommt es regelmäßig zu NaN. Value bei select im Script und Html muss
- * also eine Zahl sein
+ * OnChange Event Handler für current-type
  */
 d3.select('#current-type')
     .on("change", function () {
@@ -155,6 +176,9 @@ d3.select('#current-type')
 // Werte Lösung 2
 /////////////////
 
+/**
+ * OnChange Event Handler für range-countNeuronen
+ */
 d3.select('#range-countNeuronen')
     .on("input", function () {
         rangeCountNeuronenValue = +this.value;
@@ -163,6 +187,9 @@ d3.select('#range-countNeuronen')
         createNetworkGraph();
     });
 
+/**
+ * OnInput Event Handler für range-widerstandMin
+ */
 d3.select('#range-widerstandMin')
     .on("input", function () {
         rangeWiderstandMinValue = +this.value;
@@ -171,6 +198,9 @@ d3.select('#range-widerstandMin')
         createNetworkGraph();
     });
 
+/**
+ * OnInput Event Handler für range-widerstandMax
+ */
 d3.select('#range-widerstandMax')
     .on("input", function () {
         rangeWiderstandMaxValue = +this.value;
@@ -179,6 +209,9 @@ d3.select('#range-widerstandMax')
         createNetworkGraph();
     });
 
+/**
+ * OnInput Event Handler für range-tNetzImpulse
+ */
 d3.select('#range-tNetzImpulse')
     .on("input", function () {
         rangeTNetzImpulseValue = +this.value;
@@ -187,6 +220,9 @@ d3.select('#range-tNetzImpulse')
         createNetworkGraph();
     });
 
+/**
+ * OnInput Event Handler für range-iNetzMin
+ */
 d3.select('#range-iNetzMin')
     .on("input", function () {
         rangeINetzMinValue = +this.value;
@@ -195,6 +231,9 @@ d3.select('#range-iNetzMin')
         createNetworkGraph();
     });
 
+/**
+ * OnInput Event Handler für range-iNetzMax
+ */
 d3.select('#range-iNetzMax')
     .on("input", function () {
         rangeINetzMaxValue = +this.value;
@@ -204,8 +243,7 @@ d3.select('#range-iNetzMax')
     });
 
 /**
- * Bei Option und einer Zahl als Value kommt es regelmäßig zu NaN. Value bei select im Script und Html muss
- * also eine Zahl sein
+ * OnChange Event Handler für netzCurrent-type
  */
 d3.select('#netzCurrent-type')
     .on("change", function () {
@@ -215,7 +253,8 @@ d3.select('#netzCurrent-type')
     .property('value', NetCurrentTypeValue);
 
 /**
- * Liest die aktuell im Html für Lösung 1 und 2 gesetzten Werte aus, belegt die Variablen und setzt den initialen Texte
+ * Liest die aktuell im Html für Lösung 1 und 2 gesetzten Werte aus, belegt die Variablen und setzt die
+ * initialen Texte
  */
 function setIntialValue() {
     /////////////////

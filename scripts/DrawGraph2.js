@@ -1,3 +1,13 @@
+/**
+ * Gibt ein Plotly Scatter Plot innerhalb des übergebenen Containers aus. Hierfür werden alle auszugebenen
+ * Daten als Array übergeben.
+ * @param divID Die ID eines DIV Elementes als Container
+ * @param spannungIntern Ausgabewerte: Interne Spannung eines LIF Neuron (Membranpotential)
+ * @param SpannungExtern Ausgabewerte: Externe Spannung eines LIF Neuron (Aktionspotential, Spike)
+ * @param strom Ausgabewerte: Eingehender Strom (Ladestrom)
+ * @param zeit Die Zeitpukte der übergebenen Zustände
+ * @constructor
+ */
 function DrawGraph2(divID, spannungIntern, SpannungExtern, strom, zeit) {
     var strom = {
         x: zeit,

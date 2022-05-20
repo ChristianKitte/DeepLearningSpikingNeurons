@@ -22,6 +22,12 @@ function feedNeuron(neuron, current, dt) {
     return out;
 }
 
+/**
+ * Gibt eine zufällige Ganzzahl zwischen Min und Max zurück
+ * @param min Die untere Grenze (inkl.)
+ * @param max Die obere Grenze (inkl.)
+ * @returns {*} Eine zufällige Ganzzahl zwischen Min und Max
+ */
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }

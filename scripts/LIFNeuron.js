@@ -1,6 +1,20 @@
-// https://github.com/kaizouman/tensorsandbox/blob/master/snn/leaky_integrate_fire.ipynb
-// https://js.tensorflow.org/api/latest/
+/**
+ * Modelliert ein Leaky Intergrate and Fire (LIF) Neuron in Javascript. Ein LIF Neuron simuliert ein
+ * spikendes biologischen Neuron.
+ *
+ * https://github.com/kaizouman/tensorsandbox/blob/master/snn/leaky_integrate_fire.ipynb
+ */
 class LIFNeuron {
+    // https://js.tensorflow.org/api/latest/
+
+    /**
+     * Der Konstruktor
+     * @param u_rest Der Anfangswert des Membranpotentials
+     * @param u_thresh Die Schwellspannung, zu dem das Neuron Spiked
+     * @param tau_rest Die Dauer der Ruhezeit in Millisekunden
+     * @param r Der Membranwiderstand der Schaltung
+     * @param tau Die Membranzeitkonstante
+     */
     constructor(u_rest = 0.0, u_thresh = 1.0, tau_rest = 4.0, r = 1.0, tau = 10.0) {
         // Input current
         // Eingangsstrom
@@ -38,8 +52,13 @@ class LIFNeuron {
         this.u_out = 0;
     }
 
-    // Neuron behaviour during integration phase (below threshold)
-    // Verhalten der Neuronen während der Integrationsphase (unterhalb der Schwelle)
+    /**
+     * Aktualisiert die aktuellen Werte des Neurons in der Integrationsphase, in welcher
+     * der Kondensator der zugrunde liegenden Schaltung aufgeladen wird. Hierdurch steigt
+     * das die vorhandene Spannung.
+     * @returns {(number)[]} Ein Array aus den neuen Werten für interne Spannung, Ruhezeit und nach
+     * außen liegender Spannung.
+     */
     get_integrating_op() {
         // Update membrane potential
         // Aktualisierung des Membranpotenzials
@@ -54,8 +73,12 @@ class LIFNeuron {
         return [this.u, this.t_rest, this.u_out];
     }
 
-    // Neuron behaviour during firing phase (above threshold)
-    // Verhalten der Neuronen während der Feuerungsphase (oberhalb der Schwelle)
+    /**
+     * Wird ausgeführt, wenn das Potential der Schaltung einen Schwellenwert überschreitet. Als
+     * Ergebnis wird die innere Spannung auf die Ruhespannung gesetzt und die Ruhezeit neu gesetzt.
+     * @returns {(number)[]} Ein Array aus den neuen Werten für interne Spannung, Ruhezeit und nach
+     * außen liegender Spannung.
+     */
     get_firing_op() {
         // Reset membrane potential
         // Membranpotenzial zurücksetzen
@@ -74,8 +97,12 @@ class LIFNeuron {
         return [this.u, this.t_rest, this.u_out];
     }
 
-    // Neuron behaviour during resting phase (t_rest > 0)
-    // Verhalten der Neuronen in der Ruhephase (t_rest > 0)
+    /**
+     * Wird nur während der Ruhezeit der Schaltung aufgerufen und dient primär dazu, die Ruhezeit um
+     * einen definierten Zeitschritt zu verkleinern. Verhalten während der Ruhezeit.
+     * @returns {(number)[]} Ein Array aus den neuen Werten für interne Spannung, Ruhezeit und nach
+     * außen liegender Spannung.
+     */
     get_resting_op() {
         // Membrane potential stays at u_rest
         // Das Membranpotenzial bleibt bei u_rest
@@ -90,6 +117,12 @@ class LIFNeuron {
     }
 
     // Setzt den neuenStatus des Neuron
+    /**
+     * Steuert das Verhalten in jeden neuen Berechnungsschritt und entscheidet, ob die zugrunde liegende
+     * Schaltung (das LIF Neuron) lädt, einen Puls generiert oder sich in einer Ruhephase befindet.
+     * @returns {(number)[]} Ein Array aus den neuen Werten für interne Spannung, Ruhezeit und nach
+     * außen liegender Spannung.
+     */
     get_potential_op() {
         if (this.t_rest > 0.0) {
             return this.get_resting_op();
