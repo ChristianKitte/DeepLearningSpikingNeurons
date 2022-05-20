@@ -25,7 +25,7 @@ class LIFNeuron {
 
         // Membrane resistance in Ohm
         // Membranwiderstand in Ohm
-        this.r = r = 1.0;
+        this.r = r;
 
         // The duration left in the resting period (0 most of the time except after a neuron spike)
         // Die in der Ruhephase verbleibende Dauer (0 für die meiste Zeit, außer nach einem Neuronenspike)
@@ -88,7 +88,6 @@ class LIFNeuron {
         this.u_out = this.u_outValue;
         return [this.u, this.t_rest, this.u_out];
     }
-
 
     // Setzt den neuenStatus des Neuron
     get_potential_op() {

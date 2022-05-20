@@ -316,7 +316,7 @@
                     <p class="fs-6">
                         Bootstrap ist ein auf HTML und CSS basierendes Frontend CSS Framework für Webseiten. Dem
                         entsprechend fokussiert es auf das Design und Layout einer Seite sowie ihrer
-                        Oberflächenelemente.
+                        Oberflächenelemente und wird hierfür innerhalb dieser Anwendung verwendet.
                     </p>
                 </li>
                 <li>
@@ -356,25 +356,307 @@
                 </strong>
             </h5>
 
-            <p class="fs-6">
-                Die hier vorgestellte Umsetzung der Aufgabenstellung teilt sich in zwei einzelne Lösungen und
-                ist somit in Bezug zur Aufgabenstellung freier umgesetzt. Bei der ersten Lösung handelt es
-                sich um eine konfigurierbare Simulation zweier verbundener LIF Neuronen. Die zweite Lösung beinhaltent
-                eine Simulation zu dessen Verhalten innerhalb eines Netzwerkes.
+            <p class="fs-6">Die hier vorgestellte Umsetzung der Aufgabenstellung teilt sich in zwei einzelne Lösungen.
+                Bei der ersten Lösung handelt es sich um eine konfigurierbare Simulation zweier verbundener LIF
+                Neuronen. Die zweite Lösung beinhaltet eine Simulation zum Verhalten des LIF Neurons innerhalb eines
+                größeren Netzwerkes. Der gesamte Source Code ist frei
+                auf <a target="_blank" href="https://github.com/ChristianKitte/DeepLearningSpikingNeurons">GitHub</a>
+                verfügbar. Daher wird an dieser Stelle nicht zu tief auf den Code eingegangen.
             </p>
-            <p class="fs-6">
-                Beide Simulationen basieren auf das Modell eines Leaky and fire neuron (LIF Neuron). Hierunter
-                versteht man...
+
+            <h6>
+                <strong>
+                    Leaky Integrate and Fire (LIF) Neuron
+                </strong>
+            </h6>
+
+            <p class="fs-6">Ein <strong>Leaky Integrate and Fire (LIF) Neuron</strong> zeichnet sich grundlegend dadurch
+                aus, dass mit zunehmenden Signaleingang ein Spannungspotential aufgebaut wird. Wird eine bestimmte
+                Grenzspannung (<strong>Threshold</strong>) überschritten, so kommt es seinerseits ebenfalls zu einer
+                Entladung in Form eines Impulses (<strong>Spike</strong>). Das im Neuron vorhandene Potential bricht
+                zusammen und nach einer Erholungsphase beginnt der Vorgang von neuen. Es gleicht hierbei sehr dem
+                Verhalten menschlicher Neuronen im Gehirn.
             </p>
-            <p class="fs-6">
-                Zur ersten Simulation: ....
+
+            <p class="fs-6">Das hier verwendete Modell basiert ursprünglich vom Konzept her auf
+                die <a href="http://www.kaizou.org/2018/07/lif-neuron-tensorflow.html">hier</a> zu findende
+                Modellierung von <strong>David Corvoysier</strong> aus dem Jahr 2018. Es basiert auf der Modellierung
+                biologischer Neuronen als vereinfachte <strong>RC-Schaltung</strong>. Hierdurch kann sie mit
+                etablierten Formeln berechnet werden.
             </p>
-            <p class="fs-6">
-                Zur zweiten Simulation: ....
+
+            <p class="fs-6">Das mit Hilfe von Tensor Flow umgesetzte Modell wurde hierfür in JavaScript neu
+                implementiert und als Klasse <strong>LIFNeuron</strong> in dieser Anwendung verwendet. Insbesondere
+                wurden die Algorithmen zur Berechnung der Spannungen und Ströme übernommen. Ein Vergleich der im Lauf
+                produzierten Daten beider Umsetzungen konnte die korrekte Implementierung zeigen.
             </p>
-            <p class="fs-6">
-                Aus der Beschäftigung mit den beiden Lösungen konnten die folgenden Rückschlüsse gezogen werden...
+
+            <p class="fs-6">Zur <strong>Vereinfachung</strong> wurden sowohl die <strong>Zeitspanne zwischen zwei
+                Spikes</strong> als auch deren <strong>Vorgängerspikes</strong> in der Modellierung nicht
+                berücksichtigt. Zudem wurde die <strong>Höhe eines Spike</strong> gleich dem Threshold gesetzt
+                und <strong>dessen Länge</strong> auf einen Berechnungsschritt. Innerhalb dieser Lösung wird bei der
+                Berechnung mit einer <strong>einheitlichen Schrittlänge</strong> von einer Millisekunde gerechnet.
+                Grundsätzlich wird zudem von <strong>idealen Impulsen</strong> ausgegangen, deren Kanten ideal und
+                nicht abgeflacht sind. Innerhalb der Ausgaben kann gleichwohl der Eindruck erweckt werden, als wenn
+                dies nicht so sei.
             </p>
+
+            <p class="fs-6">Im Kern besteht das so umgesetzte Modell lediglich aus drei grundlegenden Funktionen, welche
+                durch eine zentrale Logik in der Funktion <strong>get_potential_op</strong> aufgerufen werden:
+            </p>
+
+            <ul>
+                <li><p class="fs-6"><strong>get_integrating_op</strong>: Generiert durch den Stromfluss einen Anstieg
+                    des Potentials
+                </p>
+                </li>
+                <li><p class="fs-6"><strong>get_firing_op</strong>: Generiert einen Spike, sofern der Grenzwert
+                    überschritten wird
+                </p>
+                </li>
+                <li><p class="fs-6"><strong>get_resting_op</strong>: Generiert eine Phase zur Regeneration</p>
+                </li>
+            </ul>
+
+            <p class="fs-6">Für den zweiten Teil der Lösung wurde die Klasse <strong>SynapticLIFNeuron</strong> Neuron
+                in die Anwendung eingeführt. Sie basiert auf der vorherigen Klasse, unterstützt jedoch als wichtigste
+                Erweiterung <strong>beliebig viele Signaleingänge</strong> sowie zusätzliche Funktionalität zur Ausgabe
+                ihres Status.
+            </p>
+
+            <h6>
+                <strong>
+                    Connection
+                </strong>
+            </h6>
+
+            <p class="fs-6">Neuronen innerhalb eines Netzwerkes müssen verbunden werden. Die Klasse
+                <strong>Connection</strong> bietet diese Funktionalität und ist in erster Linie die Beschreibung
+                zwei <strong>SynapticLIFNeuronen</strong> als zusammen gehörend. Sie repräsentiert somit die
+                Dendriten und Axone biologischer Neuronen im Gehirn.
+            </p>
+
+            <p class="fs-6">Verbindungen zwischen Neuronen in biologischen Systemen sind <strong>unterschiedlich
+                stark</strong> ausgebildet. In künstlichen Systemen wie beispielsweise einem Perzeptron geschieht
+                dies durch die Wichtung der an den Eingänge anliegenden, numerischen Werte.
+            </p>
+
+            <p class="fs-6">Dies ist hier nicht so einfach möglich. Ein <strong>LIFNeuron</strong> funktioniert durch
+                die Simulation eines Stromflusses, was zur Emittierung von Spikes führt. Ein wichtiger Punkt der hier
+                gezeigten Lösung ist daher die Transformation eines <strong>ausgehenden Spikes (Potential)</strong> zu
+                einem <strong>eingehenden Strom</strong>. Dies leistet die Klasse Connection durch das Hinzufügen
+                eines Widerstandes. Der Widerstand kann als <strong>Qualität der Verbindung</strong> zweier LIFNeuronen
+                interpretiert werden:</p>
+
+            <ul>
+                <li><p class="fs-6"><strong>Hoher Widerstand</strong>: Die Verbindung ist schlecht. Selbst ein hohe
+                    Spannung führt nur zu einem kleinen Strom.</p>
+                </li>
+                <li><p class="fs-6"><strong>Kleiner Widerstand</strong>: Die Verbindung ist gut. Selbst eine kleine
+                    Spannung führt bereits zu einem Stromfluss. Größere Spannungen verursachen größere Ströme.</p>
+                </li>
+            </ul>
+
+            <p class="fs-6">Die Höhe der durch die Verbindung fließenden Stroms errechnet sich hierbei durch das Ohm'
+                sche Gesetz. Innerhalb dieser Anwendung wird der Widerstandswert entweder fest (Lösung 1) oder zufällig
+                (Lösung 2) eingestellt. Im zweiten Fall wird aus dem vorgegebenen Bereich ein zufälliger Wert gewählt.
+            </p>
+
+            <h6>
+                <strong>
+                    Lösung 1
+                </strong>
+            </h6>
+
+            <p class="fs-6">Bei der ersten Lösung steht die Simulation eines <strong>einzelnen LIF Neurons</strong>
+                sowie zweier in Reihe geschalteter Neuronen im Vordergrund.</p>
+
+            <p class="fs-6">Hierbei erhält das erste Neuron einen <strong>konfigurierbaren Eingangsstrom</strong>,
+                welcher für die in das Neuron eintreffenden Ströme steht. Der Ausgang des Neurons ist wiederum mit
+                dem Eingang des zweiten Neurons über eine Connection verbunden. Die <strong>Spikes des ersten
+                    Neurons</strong> generieren somit einen <strong>Stromfluss in das zweite Neuron</strong>. Die Höhe
+                ist hierbei vom einstellbaren Widerstand der Connection abhängig.
+            </p>
+
+            <p class="fs-6">Grundsätzlich kann zwischen einer <strong>getakteten Stromquelle</strong> sowie einer
+                <strong>zufälligen Stromkurve</strong> gewählt werden. Insbesondere die erste Art stellt hierbei das
+                Äquivalent zu einem <strong>Spike Train</strong> dar.
+            </p>
+
+            <p class="fs-6">Auf der rechten Seite werden im <strong>oberen Graph</strong> der Strom, der
+                Spannungsverlauf sowie die Spikes des Neurons angezeigt. Wie oben beschrieben richtet sich die
+                Dauer der Ruhezeit nach den zugrundeliegenden Zeitschritten, hier eine Millisekunde. Der <strong>untere
+                    Graph</strong> zeigt des Status des zweiten Neurons.
+            </p>
+
+            <p class="fs-6">Die Simulation der Lösung 1 durchläuft bei jeder Änderung die <strong>gesamte
+                Simulation</strong> von maximal 200 ms und bringt diese neu zur Darstellung.</p>
+
+            <h6>
+                <strong>
+                    Lösung 2
+                </strong>
+            </h6>
+
+            <p class="fs-6">Die zweite Lösung bietet die Simulation eines <strong>Netzwerk aus LIF Neuronen</strong>.
+                Im Gegensatz zur ersten Lösung läuft die Simulierung nach ihren Start für eine unbestimmte Zeit fort,
+                kann aber auch pausiert oder abgebrochen werden. Änderungen an den Einstellungen werden zu Beginn
+                jedes neuen Berechnungsschrittes berücksichtigt.</p>
+
+            <p class="fs-6">Als Netzwerk wird ein Ball gewählt, wobei <strong>jedes Neuron mit jedem anderen Neuron
+                verbunden</strong> ist. Die Stärke der Verbindungen wird hierbei <strong>zufällig</strong> festgelegt.
+                Grundsätzlich kann auch hier zwischen einer getakteten Stromquelle sowie einer zufälligen Stromkurve
+                gewählt werden.
+            </p>
+
+            <p class="fs-6">Eine Änderungen an der Anzahl der zugrunde liegenden Neuronen oder des Widerstandsbereichs
+                führen zu der Erzeugung eines <strong>neuen Graphen</strong> mit <strong>neuen Widerstandswerten der
+                    Verbindungen</strong>. Änderungen der anderen Werte werden lediglich berücksichtigt, ohne den
+                Graphen neu zu erzeugen.
+            </p>
+
+            <p class="fs-6">Auf der rechten Seite werden verschiedene Ausgaben zur Netzaktivität ausgegeben. Als erstes
+                erfolgt für jedes Neuron eine eigene <strong>Visualisierung als abgerundete Box</strong>. Bei laufender
+                Simulation erscheinen die beteiligten Neuronen ** grün**, <strong>rot im Falle eines Spikes</strong>.
+            </p>
+
+            <p class="fs-6">In dem darunter liegenden Diagramm wird die <strong>Anzahl der spikenden Neuronen je
+                Zeitschritt (1 ms)</strong> eingetragen. Das Diagramm bietet Platz für 20 Sekunden und somit 20.000
+                Einträgen. Während der Simulation ist die so entstehende Auswertung nur wenig aussagekräftig. Erst
+                nach Abschluss der Simulation zeigt sich deren Nutzen, da sie <strong>erhalten bleibt</strong> und
+                somit im Nachgang analysiert werden kann. Hierfür bieten die Diagramme von
+                <a href="https://plotly.com/chart-studio-help/zoom-pan-hover-controls/#step-1-introduction">Plotly</a>
+                nativ eine Reihe von Möglichkeiten.
+            </p>
+
+            <p class="fs-6">Als letzte Ausgabe wird der <strong>Graph des Netzwerkes</strong> ausgegeben, um eine
+                Vorstellung der Komplexität zu erhalten. In der aktuellen Lösung verfügt der Graph über keine
+                nennenswerte Interaktivität, ist jedoch hierfür vorbereitet.
+            </p>
+
+            <h5>
+                <strong>
+                    Ergebnisse
+                </strong>
+            </h5>
+
+            <p class="fs-6">Auch bei einer vereinfachten Modellierung lassen sich aus der Beschäftigung mit den
+                Simulationen eine Reihe an Erkenntnissen gewinnen.
+            </p>
+
+            <h6>
+                <strong>
+                    Strom
+                </strong>
+            </h6>
+
+            <p class="fs-6">Für die <strong>erste Lösung</strong> soll hier auf Beobachtungen zum Verhalten bei
+                <strong>Strom- und Widerstandänderungen</strong> eingegangen werden. <strong>Hohe Ströme führen
+                    zu einer hohen Spikefolge</strong>, also tendenziell zu einem <strong>Spike Train mit eher
+                    dich zusammen liegenden Spikes</strong>. Die folgende Grafik zeigt die Ausgabe eines Neurons
+                bei einem gepulsten Strom vom 1,304 mA:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-05-46-image.png">
+
+            <p class="fs-6">Im Vergleich die Ausgabe bei einem Strom von 0,986 mA:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-07-19-image.png">
+
+            <p class="fs-6">In den folgenden <strong>drei Grafiken</strong> ist die Ausgabe des <strong>zweiten in
+                Reihe geschalteten Neurons</strong> zu sehen. Hierbei wurde bei <strong>konstanter
+                Eingangsspannung</strong> von 0,986 mA (<em>obiges Diagramm</em>) lediglich der <strong>Widerstand
+                verändert</strong>. Für einen relativ hohen Widerstand von 0,669 Ohm, der für eine "<em>schlechte</em>"
+                Verbindung steht, zeigt sich ein <strong>langsames Aufschaukeln des Neurons</strong>, jedoch noch
+                <strong>kein Spiken</strong>:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-08-58-image.png">
+
+            <p class="fs-6">Wird der zu Grunde liegende Widerstand auf 0,475 Ohm <strong>verringert</strong>, was einer
+                <em>stärkeren</em> Verbindung der beiden Neuronen entspricht, so <strong>spikt das Neuron</strong> mit
+                einer <strong>kleineren Frequenz</strong> als Reaktion auf den nunmehr größeren Strom:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-09-42-image.png">
+
+            <p class="fs-6">Wird im weiteren Verlauf der Widerstand nochmals auf dann 0,038 Ohm
+                <strong>verringert</strong>, so stellt man eine <strong>sehr hohe Korrelation beim Spiken</strong>
+                fest. Beide Neuronen feuern zusammen:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-10-22-image.png">
+
+            <h6>
+                <strong>
+                    Anzahl spikender Neuronen
+                </strong>
+            </h6>
+
+            <p class="fs-6">Bei der <strong>zweiten Lösung</strong> möchte ich den Fokus auf den <strong>Einfluss der
+                Anzahl der Neuronen</strong> sowie der <strong>Stromstärke</strong> beim <strong>Anlaufen des
+                Netzes</strong> legen. Zu berücksichtigen ist hierbei, dass bei einer Änderung des Anzahl an Neuronen
+                oder der Widerstände das Netz <strong>neu</strong> erstellt und die Verbindungen mit <strong>neuen und
+                    zufälligen</strong> Widerstandswerten belegt wird. Umso erstaunlicher sind die Ergebnisse.
+            </p>
+
+            <p class="fs-6">Zunächst soll der <strong>Einfluss der Anzahl an Neuronen</strong> untersucht werden. Der
+                erste betrachtete Verlauf erfolgt mit den folgenden Parametern: <em>25 Neuronen, Widerstand von 0,166
+                    Ohm bis 2,698 Ohm, Stromart: Puls mit einer Pulslänge von 432 ms, Stromstärke zwischen 2,677 mA
+                    und 3 mA</em>:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-47-46-image.png">
+
+            <p class="fs-6">Es ist zu erkennen, dass das Netz <strong>schnell an Aktivität</strong> gewinnt, um nach
+                einer Zeit einen <strong>periodischen Verlauf</strong> zu zeigen.
+            </p>
+
+            <p class="fs-6">Im nächsten Versuch wurden die Anzahl der Neuronen bei <strong>gleicher Stromstärke</strong>
+                auf fünf reduziert. Die Parameter hierbei sind: <em>5 Neuronen, Widerstand von 0,166 Ohm bis 2,698 Ohm,
+                    Stromart: Puls mit einer Pulslänge von 432 ms, Stromstärke zwischen 2,677 mA und 3 mA</em>:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-50-06-image.png">
+
+            <p class="fs-6">Es zeigt sich, dass zwar <strong>zügig Aktivität</strong> vorhanden ist und Neuronen spiken,
+                der Graph jedoch <strong>keinen periodischen</strong> Verlauf zu haben scheint. Eine <strong>zu
+                    beweisende These</strong> ist, dass <em>größere Netzwerke ausgeglichener arbeiten, kleinere
+                    eher zu einem sprunghaften Verhalten neigen</em>.
+            </p>
+
+            <p class="fs-6">Als nächstes soll der <strong>Einfluss der Stromstärke</strong> näher untersucht werden. In
+                einer erste Simulation wird die Stromstärke zwischen 1mA und 1,503 mA geschaltet. Die Parameter sind:
+                <em>30 Neuronen, Widerstand von 0,192 Ohm bis 2,525 Ohm, Stromart: Puls mit einer Pulslänge von 44 ms,
+                    Stromstärke zwischen 1 mA und 1,503 mA</em>:
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-55-57-image.png">
+
+            <p class="fs-6">Zu erkennen ist die <strong>relativ große Zeitspanne</strong>, bis es zu einem ersten Pulsen
+                kommt, das sich <strong>zunächst langsam</strong>, dann <strong>Explosionsartig</strong> ausweitet um
+                dann wieder in einen <strong>periodischen Verlauf</strong> über zu gehen. Eine <strong>Analogie</strong>
+                währe <em>eine nur kleine Aktivität, welche jedoch regelmäßig auftaucht. Erst mit der Zeit gewinnt sie
+                    an Einfluss</em>.
+            </p>
+
+            <p class="fs-6">Wird der Strom, oder in der Analogie die Aktivität <strong>stärker</strong>, wirkt sie
+                <strong>schneller</strong> auf das Netz ein. Das folgende Diagramm entstand mit den folgenden
+                Parametern: <em>30 Neuronen, Widerstand von 0,192 Ohm bis 2,525 Ohm, Stromart: Puls mit
+                    einer Pulslänge von 44 ms, Stromstärke zwischen 1 mA und 2,514 mA</em>
+            </p>
+
+            <img class="img-thumbnail" data-align="center" alt="" title="" src="assets/2022-05-19-19-59-15-image.png">
+
+            <p class="fs-6">Zu sehen ist, dass das Netz <strong>sehr schnell aktiviert wird</strong>, und <strong>nach
+                kurzer Zeit einen periodischen Verlauf</strong> annimmt. Eine <strong>zu beweisende These</strong> ist,
+                dass <em>in einen biologischen System Aufmerksamkeit zu einer höheren Aktivität führt, welche wiederum
+                    schneller auf das neuronale Netz wirkt</em>. Aus den oben gezeigten Verläufen für die erste Lösung
+                konnte bereits entnommen werden, dass <strong>hohe Ströme</strong> die <strong>Anzahl der Spikes
+                    vergrößern</strong>. Dies kann als eine Ursache für den Verlauf angenommen werden.
+            </p>
+
         </div>
 
     </div>
