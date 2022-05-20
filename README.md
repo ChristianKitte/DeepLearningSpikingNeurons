@@ -165,6 +165,10 @@ Strom:
 Wird im weiteren Verlauf der Widerstand nochmals auf dann 0,038 Ohm **verringert**, so stellt man eine **sehr hohe
 Korrelation beim Spiken** fest. Beide Neuronen feuern zusammen:
 
+Wird im weiteren Verlauf der Widerstand nochmals auf dann 0,038 Ohm **verringert**, so stellt man eine **sehr hohe 
+Korrelation beim Spiken** fest, was an Hebb's Rule erinnert: Wire together, Fire together sofern die Verbindung 
+stark genug ist. Beide Neuronen feuern zusammen:
+
 <img src="assets/2022-05-19-19-10-22-image.png" title="" alt="" data-align="center">
 
 ###### Anzahl spikender Neuronen
