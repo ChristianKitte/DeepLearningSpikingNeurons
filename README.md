@@ -108,17 +108,15 @@ neu zur Darstellung.
 
 ## Lösung 2
 
-Die zweite Lösung bietet die Simulation eines **Netzwerk aus LIF Neuronen**. Im Gegensatz zur ersten Lösung läuft die
-Simulierung nach ihren Start für eine unbestimmte Zeit fort, kann aber auch pausiert oder abgebrochen werden. Änderungen
-an den Einstellungen werden zu Beginn jedes neuen Berechnungsschrittes berücksichtigt.
+Die zweite Lösung bietet die Simulation eines **Netzwerkes aus LIF Neuronen**. Im Gegensatz zur ersten Lösung läuft die 
+Simulation nach ihren Start für eine unbestimmte Zeit fort, kann aber auch pausiert oder abgebrochen werden.
+
+Änderungen an den zugrunde liegenden Werten führen zu der Erzeugung eines **neuen Graphen** mit **neuen Widerstandswerten** 
+der Verbindungen. Dies muss bei der Arbeit berücksichtigt werden.
 
 Als Netzwerk wird ein Ball gewählt, wobei **jedes Neuron mit jedem anderen Neuron verbunden** ist. Die Stärke der
 Verbindungen wird hierbei **zufällig** festgelegt. Grundsätzlich kann auch hier zwischen einer getakteten Stromquelle
 sowie einer zufälligen Stromkurve gewählt werden.
-
-Eine Änderungen an der Anzahl der zugrunde liegenden Neuronen oder des Widerstandsbereichs führen zu der Erzeugung
-eines **neuen Graphen** mit **neuen Widerstandswerten der Verbindungen**. Änderungen der anderen Werte werden lediglich
-berücksichtigt, ohne den Graphen neu zu erzeugen.
 
 Auf der rechten Seite werden verschiedene Ausgaben zur Netzaktivität ausgegeben. Als erstes erfolgt für jedes Neuron
 eine eigene **Visualisierung als abgerundete Box**. Bei laufender Simulation erscheinen die beteiligten Neuronen **
@@ -193,7 +191,7 @@ Stromstärke zwischen 2,677 mA und 3 mA*:
 
 Es zeigt sich, dass zwar **zügig Aktivität** vorhanden ist und Neuronen spiken, der Graph jedoch **keinen periodischen**
 Verlauf zu haben scheint. Eine **zu beweisende These** ist, dass *größere Netzwerke ausgeglichener arbeiten, kleinere
-eher zu einem sprunghaften Verhalten neigen*,
+eher zu einem sprunghaften Verhalten neigen*.
 
 Als nächstes soll der **Einfluss der Stromstärke** näher untersucht werden. In einer erste Simulation wird die
 Stromstärke zwischen 1mA und 1,503 mA geschaltet. Die Parameter sind: *30 Neuronen, Widerstand von 0,192 Ohm bis 2,525
