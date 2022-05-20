@@ -6,7 +6,7 @@ let simulationMaxTime = 20000;
 
 function DrawBoxGraph(divID, dt, network, reset = false) {
     if (reset || simulationMaxTime < simulationOverAllTime) {
-        simulationMaxTime = 0;
+        simulationMaxTime = 20000;
         simulationOverAllTime = 0;
         activeNodesCount.splice(0, activeNodesCount.length)
         simulationTimeCount.splice(0, simulationTimeCount.length)

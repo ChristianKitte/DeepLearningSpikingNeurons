@@ -104,7 +104,7 @@ function nextNetSimulationStep() {
     network.computeNexStep(1, NetCurrentTypeValue, rangeINetzMinValue, rangeINetzMaxValue, pulse);
 
     UpdateNodeArray(network, 'box-container')
-    DrawBoxGraph('box-Plot',1,network);
+    DrawBoxGraph('box-Plot', 1, network);
 
     pulseTimer--;
     if (pulseTimer <= 0) {
@@ -128,6 +128,7 @@ function createNetworkGraph() {
     newSession = createGraph(network);
 
     CreateNodeArray(network, 'box-container');
+    DrawBoxGraph('box-Plot', 1, network);
 }
 
 /**

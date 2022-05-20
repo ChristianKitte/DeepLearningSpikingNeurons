@@ -1,15 +1,17 @@
-// The browser will limit the number of concurrent audio contexts
-// So be sure to re-use them whenever you can
+/**
+ * Ein wiederverwendbarer AudioContext
+ */
 let myAudioContext;
 
 /**
- * Helper function to emit a beep sound in the browser using the Web Audio API.
+ * Hilfsfunktion um einen Sound zu erzeugen mit Hilfe der Web Audio API.
+ * Allgemeine Quelle im Netz
  *
- * @param {number} duration - The duration of the beep sound in milliseconds.
- * @param {number} frequency - The frequency of the beep sound.
- * @param {number} volume - The volume of the beep sound.
+ * @param {number} duration - Dauer des Tons in ms
+ * @param {number} frequency - Frequenz des Tons
+ * @param {number} volume - Lautstärke des Tons
  *
- * @returns {Promise} - A promise that resolves when the beep sound is finished.
+ * @returns {Promise} - Promise, nachdem die Ausgabe beendet wurde
  */
 function beep(duration = 200, frequency = 400, volume = 100) {
     return new Promise((resolve, reject) => {

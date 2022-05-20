@@ -1,4 +1,10 @@
+/**
+ * Die beteiligten Neuronen
+ */
 let _neurons = [];
+/**
+ * Die beteiligten Verbindungen
+ */
 let _connections = [];
 
 const lineGenerator = d3.line();

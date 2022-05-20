@@ -58,7 +58,7 @@
         <div class="simulation-config">
             <input class="form-check-input" type="checkbox" checked id="check-playSound">
             <label class="form-check-label" for="check-playSound">
-                Bei der Simulation einen Ton für jeden Spike ausgeben?
+                Bei den Simulationen soll ein Ton für jeden Spike ausgeben werden
             </label>
 
         </div>
@@ -92,25 +92,37 @@
                 <div class="row" id="info-text1">
                     <p class="fs-5 output-text">Auf dieser Seite kann mit zwei Leaky Integrate and Fire (LIF) Neurons
                         experimentiert werden, welche in Reihe geschaltet sind. Das erste Neuron erhält hierbei einen
-                        konfigurierbaren Eingangsstrom, welcher für die in das Neuron eintreffenden Ströme steht.
+                        konfigurierbaren Eingangsstrom, welcher für die in das Neuron eintreffenden Ströme steht. Die
+                        so entstehenden Spikes befeuern das dahinter liegende zweite LIF Neuron. Im Abschnitt
+                        <strong>Dokumentation</strong> finden sie eine ausführliche Erklärung hierzu.
                     </p>
-                    <p class="fs-5 output-text">
-                        Grundsätzlich kann zwischen einer getakteten Stromquelle sowie einer zufälligen Stromkurve
-                        gewählt werden. Sie stellen das Äquivalent zu einem Spike Train dar. Auf der linken Seite sind
-                        alle Möglichkeiten für die Einstellung der Stromquelle zu sehen.
-                    </p>
-                    <p class="fs-5 output-text">
-                        Auf der rechten Seite werden im oberen Graph der Strom, der Spannungsverlauf sowie die Spikes
-                        des Neurons angezeigt. Die Dauer des Spikes richtet sich hierbei vereinfacht nach der Dauer
-                        der Ruhezeit. Es werden weiterhin zur Vereinfachung nicht die Zeitintervalle zwischen den
-                        einzelnen Spikes oder die vorherigen Spikes berücksichtigt.
-                    </p>
-                    <p class="fs-5 output-text">
-                        Am Ausgang des ersten Neurons befindet sich ein weiters Neuron in Reihe. An íhm liegt ein
-                        Strom an, der auf den Spikes des vorherigen Neurons und den Widerstand der Verbindung beruht.
-                        Eine gute Verbindung kann durch einen kleinen Widerstand ausgedrückt werden, eine schlechte
-                        entsprechend über einen hohen. Der Zustand wird in dem unteren Diagramm ausgedrückt.
-                    </p>
+
+                    <ul>
+                        <li class="fs-6">
+                            Zeitdauer der Simulation - Bitte geben Sie die gesamte Zeitdauer der Simulation in ms an.
+                        </li>
+                        <li class="fs-6">
+                            Länge des Zeitschritts für die Berechnung - Nach jedem Zeitschritt in ms erfolgt eine neue
+                            Berechnung. Für 1 ms somit je Millisekunde eine Berechnung.
+                        </li>
+                        <li class="fs-6">
+                            Zeitdauer des Impulses - Wird als Stromart Impuls gewählt, bestimmt dies die Länge des
+                            Impulses in ms.
+                        </li>
+                        <li class="fs-6">
+                            Höhe des Stroms - Bei einem Impuls ist dies die Höhe bei einem Impuls, bei Zufall der
+                            maximale Stromwert in mA. Der minimale Wert beträgt immer 0 mA.
+                        </li>
+                        <li class="fs-6">
+                            Wählen Sie die Stromart - Grundsätzlich stehen zwei Arten zur Verfügung: Ein ideal gepulster
+                            oder ein zufällig generierter Strom.
+                        </li>
+                        <li class="fs-6">
+                            Widerstand zum nächsten Neuron - Hier wird der Widerstand der Verbindung beider
+                            Neuronen in Ohm festgelegt. Ein kleiner Widerstand führt zu einem hohen Strom und steht
+                            für eine starke Verbindung.
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="col">
@@ -155,11 +167,11 @@
                             </select>
                         </div>
 
-                        <div id="simulation-button-bar" class="simulation-config">
-                            <button class="btn btn-outline-primary" onclick="runSimulation()">Simulation manuelle
+                        <!-- <div id="simulation-button-bar" class="simulation-config">
+                            <button class="btn btn-outline-primary" onclick="runSimulation()">Simulation manuell
                                 anstoßen
                             </button>
-                        </div>
+                        </div>-->
                     </div>
                 </div>
 
@@ -181,27 +193,43 @@
             <div class="row">
                 <div class="row" id="info-text2">
                     <p class="fs-5 output-text">Auf dieser Seite wird ein Netzwerk aus Leaky Integrate and Fire (LIF)
-                        Neuronen graphisch dargestellt und anhand der eingestellten Parameter (links) ausgeführt. Die
-                        einzelnen Berechnungsschritt der Simulation sind hierbei fest und betragen eine Millisekunde.
+                        Neuronen simuliert und ausgewertet. Verschiedene Parameter können dabei frei gewählt werden.
+                        Der Berechnungsschritt ist mit einer Millisekunde fest vorgegeben. Im Abschnitt
+                        <strong>Dokumentation</strong> finden sie eine ausführliche Erklärung hierzu.
                     </p>
-                    <p class="fs-5 output-text">
-                        Grundsätzlich kann zwischen einer getakteten Stromquelle sowie einer zufälligen Stromkurve
-                        gewählt werden. Bei der Stromquelle kann zudem der Bereich der Stromstärke sowie die Pulslänge
-                        eingestellt werden. Sie stellen das Äquivalent zu einem Spike Train dar.
 
-                        Weiter kann die Anzahl der LIF Neuronen sowie der Widerstandsbereich zwischen den LIF Neuronen
-                        eingestellt werden. Ein kleiner Widerstand steht für eine "gute" Verbindung.
-                    </p>
-                    <p class="fs-5 output-text">
-                        Auf der rechten Seite werden Angaben zur Netzaktivität ausgegeben. Ganz oben werden die LIF
-                        Neuronen visualisiert, darunter die Anzahl der Spikes je Milisekunde. Der Graph bleibt bei der
-                        Beendigung weiterhin verfügbar und kann so ausgewertet werden.
-
-                        Als letztes wird der Graph selbst visuell ausgegeben. Nodes stellen die LIF Neuronen dar, die
-                        Kanten die mit einem Widerstand belasteten Verbindungen. Als Netzstruktur wurde ein Ball
-                        gewählt, so dass jedes Neuron mit jedem anderen verbunden ist. Die Dauer der zugrunde gelegten
-                        Spikes richten sich hierbei vereinfacht nach der Dauer der Ruhezeit und sind fest vorgegeben.
-                    </p>
+                    <ul>
+                        <li class="fs-6">
+                            Anzahl der Neuronen - Die Anzahl der Neuronen, aus denen das Netz gebildet wird. Als
+                            Netzform findet ein "Ball" Anwendung, wobei jedes Neuron mit jeden anderen verbunden ist.
+                        </li>
+                        <li class="fs-6">
+                            Untere Begrenzung des Widerstandes - Gibt die untere Grenze der Verbindungswiderstände in
+                            Ohm an. Die Widerstände der Verbindungen selbst werden zufällig aus dem gegebenen Bereich
+                            ausgewählt.
+                        </li>
+                        <li class="fs-6">
+                            Obere Begrenzung des Widerstandes - Gibt die obere Grenze der Verbindungswiderstände in
+                            Ohm an. Die Widerstände der Verbindungen selbst werden zufällig aus dem gegebenen Bereich
+                            ausgewählt.
+                        </li>
+                        <li class="fs-6">
+                            Zeitdauer eines Impulses - Wird als Stromart Impuls gewählt, bestimmt dies die Länge des
+                            Impulses in ms.
+                        </li>
+                        <li class="fs-6">
+                            Minimale Höhe des Stroms - Bei einem Impuls ist dies die Höhe im Ruhezustand (kein Impuls),
+                            bei Zufall der minimale Stromwert in mA.
+                        </li>
+                        <li class="fs-6">
+                            Maximale Höhe des Stroms - Bei einem Impuls ist dies die Höhe bei einem Impuls, bei Zufall
+                            der maximale Stromwert in mA.
+                        </li>
+                        <li class="fs-6">
+                            Wählen Sie die Stromart - Grundsätzlich stehen zwei Arten zur Verfügung: Ein ideal gepulster
+                            oder ein zufällig generierter Strom.
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="col">
@@ -263,8 +291,8 @@
                         </div>
 
                         <div id="simulation-netzButton-bar" class="simulation-config">
-                            <button class="btn btn-outline-primary" onclick="createNetworkGraph()">Netzwerk erzeugen
-                            </button>
+                            <!--<button class="btn btn-outline-primary" onclick="createNetworkGraph()">Netzwerk erzeugen
+                            </button>-->
                             <button class="btn btn-outline-primary" onclick="startNetSimulation()">Netzwerk starten
                             </button>
                             <button class="btn btn-outline-primary" onclick="stopNetSimulation()">Netzwerk stoppen
@@ -280,14 +308,13 @@
                             rot dargestellt.</p>
                     </div>
                     <div>
-                        <p class="fs-6">In dem zur Laufzeit angezeigten Diagramm werden die Anzahl der Spikes je
-                            Millisekunde in einem
+                        <p class="fs-6">Das Diagramm zeigt die Anzahl der Spikes je Millisekunde in einem
                             <a href="https://en.wikipedia.org/wiki/Scatter_plot" target="_blank">
-                                Scatter Plot</a> dargestellt. Weitere Informationen zur Bedienung können Sie
+                                Scatter Plot</a> an. Weitere Informationen zur Bedienung können Sie
                             <a href="https://plotly.com/chart-studio-help/zoom-pan-hover-controls/#step-1-introduction"
-                               target="_blank">
-                                hier
-                            </a> erhalten.</p>
+                               target="_blank">hier</a> erhalten. Das Diagramm bleibt hierbei über die Änderung des
+                            Netzwerkes hinaus erhalten. Erst bei einem Neuladen der Seite, wird es zurück gesetzt.
+                        </p>
                     </div>
                     <div id="box-Plot"></div>
                     <div>
@@ -498,10 +525,14 @@
                 </strong>
             </h6>
 
-            <p class="fs-6">Die zweite Lösung bietet die Simulation eines <strong>Netzwerk aus LIF Neuronen</strong>.
-                Im Gegensatz zur ersten Lösung läuft die Simulierung nach ihren Start für eine unbestimmte Zeit fort,
-                kann aber auch pausiert oder abgebrochen werden. Änderungen an den Einstellungen werden zu Beginn
-                jedes neuen Berechnungsschrittes berücksichtigt.</p>
+            <p class="fs-6">Die zweite Lösung bietet die Simulation eines <strong>Netzwerkes aus LIF Neuronen</strong>.
+                Im Gegensatz zur ersten Lösung läuft die Simulation nach ihren Start für eine unbestimmte Zeit fort,
+                kann aber auch pausiert oder abgebrochen werden.</p>
+
+            <p class="fs-6">Änderungen an den zugrunde liegenden Werten führen zu der Erzeugung eines <strong>neuen
+                Graphen</strong> mit <strong>neuen Widerstandswerten der Verbindungen</strong>. Dies muss bei der
+                Arbeit berücksichtigt werden.
+            </p>
 
             <p class="fs-6">Als Netzwerk wird ein Ball gewählt, wobei <strong>jedes Neuron mit jedem anderen Neuron
                 verbunden</strong> ist. Die Stärke der Verbindungen wird hierbei <strong>zufällig</strong> festgelegt.
@@ -509,15 +540,10 @@
                 gewählt werden.
             </p>
 
-            <p class="fs-6">Eine Änderungen an der Anzahl der zugrunde liegenden Neuronen oder des Widerstandsbereichs
-                führen zu der Erzeugung eines <strong>neuen Graphen</strong> mit <strong>neuen Widerstandswerten der
-                    Verbindungen</strong>. Änderungen der anderen Werte werden lediglich berücksichtigt, ohne den
-                Graphen neu zu erzeugen.
-            </p>
-
             <p class="fs-6">Auf der rechten Seite werden verschiedene Ausgaben zur Netzaktivität ausgegeben. Als erstes
                 erfolgt für jedes Neuron eine eigene <strong>Visualisierung als abgerundete Box</strong>. Bei laufender
-                Simulation erscheinen die beteiligten Neuronen ** grün**, <strong>rot im Falle eines Spikes</strong>.
+                Simulation erscheinen die beteiligten Neuronen <strong>grün</strong>, <strong>rot im Falle eines
+                    Spikes</strong>.
             </p>
 
             <p class="fs-6">In dem darunter liegenden Diagramm wird die <strong>Anzahl der spikenden Neuronen je

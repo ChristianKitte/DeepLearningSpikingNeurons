@@ -14,12 +14,12 @@ let playSoundOnSpike = false;
 
 /**
  * Die gesammte Zeitdauer der Ausgabe in ms
- * @type {string}
+ * @type {number}
  */
 let rangeTgesamtValue = 0;
 /**
  * Die Zeit zwischen zwei Rechenschritte in ms
- * @type {string}
+ * @type {number}
  */
 let rangeDtValue = 0;
 /**
@@ -210,7 +210,7 @@ d3.select('#range-iNetzMax')
 d3.select('#netzCurrent-type')
     .on("change", function () {
         NetCurrentTypeValue = +this.value;
-        createNetworkGraph();
+        //createNetworkGraph();
     })
     .property('value', NetCurrentTypeValue);
 

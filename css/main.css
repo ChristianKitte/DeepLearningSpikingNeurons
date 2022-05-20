@@ -16,6 +16,10 @@
     margin-top: 1em;
 }
 
+ul {
+    margin-left: 20px;
+}
+
 #info-text1, #info-text2 {
     padding: 10px;
     margin: 5px;
