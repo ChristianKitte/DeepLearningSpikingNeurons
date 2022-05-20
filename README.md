@@ -33,10 +33,11 @@ seinerseits ebenfalls zu einer Entladung in Form eines Impulses (**Spike**). Das
 zusammen und nach einer Erholungsphase beginnt der Vorgang von neuen. Es gleicht hierbei sehr dem Verhalten menschlicher
 Neuronen im Gehirn.
 
-Das hier verwendete Modell basiert ursprünglich vom Konzept her auf
-die [hier]([Leaky Integrate and Fire neuron with Tensorflow](http://www.kaizou.org/2018/07/lif-neuron-tensorflow.html))
-zu findende Modellierung von **David Corvoysier** aus dem Jahr 2018. Es basiert auf der Modellierung biologischer
-Neuronen als vereinfachte **RC-Schaltung**. Hierdurch kann sie mit etablierten Formeln berechnet werden:
+Das hier verwendete Modell basiert ursprünglich vom Konzept her auf die [hier](http://www.kaizou.org/2018/07/lif-neuron-tensorflow.html)
+zu findende Modellierung von **David Corvoysier** aus dem Jahr 2018. Es basiert auf der Modellierung biologischer Neuronen 
+als vereinfachte **RC-Schaltung**, wie in der folgenden Abbildung zu sehen ist. Hierdurch kann sie mit etablierten Formeln 
+berechnet werden. Eine sehr gute Einführung zum Thema LIF Neuronen der FU Berling findet sich auch 
+[hier](https://www.bcp.fu-berlin.de/en/biologie/arbeitsgruppen/Archiv/ag_nawrot/teaching/materials/Nawrot_LeakyIntegrateAndFireNeuron09.pdf).
 
 ![](assets/2022-05-20-20-29-02-image.png)
 
